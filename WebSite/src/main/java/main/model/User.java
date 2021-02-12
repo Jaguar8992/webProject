@@ -33,8 +33,10 @@ public class User {
     @Column (nullable = false)
     private String password;
 
+    @Column (nullable = true)
     private String code;
 
+    @Column (nullable = true)
     private String photo;
 
     @OneToMany(cascade = CascadeType.ALL)
@@ -43,6 +45,8 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL)
     private List<PostComment> postComments;
 
+    @OneToMany(cascade = CascadeType.ALL)
+    private List <PostVote> postVotes;
 
     public void setPostComments(List<PostComment> postComments) {
         this.postComments = postComments;
@@ -121,5 +125,13 @@ public class User {
 
     public List<PostComment> getPostComments() {
         return postComments;
+    }
+
+    public List<PostVote> getPostVotes() {
+        return postVotes;
+    }
+
+    public void setPostVotes(List<PostVote> postVotes) {
+        this.postVotes = postVotes;
     }
 }

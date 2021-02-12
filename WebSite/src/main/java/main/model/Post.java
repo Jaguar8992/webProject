@@ -45,6 +45,15 @@ public class Post {
     @OneToMany (cascade = CascadeType.ALL)
     private List <PostComment> postComments;
 
+    @OneToMany (cascade = CascadeType.ALL)
+    private List <PostVote> postVotes;
+
+    @ManyToMany (cascade = CascadeType.ALL)
+    @JoinTable (name = "tags2post",
+            joinColumns = {@JoinColumn (name = "post_id")},
+            inverseJoinColumns = {@JoinColumn (name = "tag_id")})
+    private List <Tag> tags;
+
     public int getId() {
         return id;
     }
@@ -123,5 +132,21 @@ public class Post {
 
     public void setPostComments(List<PostComment> postComments) {
         this.postComments = postComments;
+    }
+
+    public List<PostVote> getPostVotes() {
+        return postVotes;
+    }
+
+    public void setPostVotes(List<PostVote> postVotes) {
+        this.postVotes = postVotes;
+    }
+
+    public List<Tag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<Tag> tags) {
+        this.tags = tags;
     }
 }

@@ -14,11 +14,11 @@ public class PostVote {
     @GeneratedValue ( strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column (name = "user_id", nullable = false)
-    private int userId;
+    @ManyToOne (cascade = CascadeType.ALL)
+    private User user;
 
     @ManyToOne (cascade = CascadeType.ALL)
-    private int postId;
+    private Post post;
 
     @Column (nullable = false)
     @Type(type = "date")
@@ -36,22 +36,6 @@ public class PostVote {
         this.id = id;
     }
 
-    public int getUserId() {
-        return userId;
-    }
-
-    public void setUserId(int userId) {
-        this.userId = userId;
-    }
-
-    public int getPostId() {
-        return postId;
-    }
-
-    public void setPostId(int postId) {
-        this.postId = postId;
-    }
-
     public Date getTime() {
         return time;
     }
@@ -66,5 +50,21 @@ public class PostVote {
 
     public void setValue(int value) {
         this.value = value;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Post getPost() {
+        return post;
+    }
+
+    public void setPost(Post post) {
+        this.post = post;
     }
 }
