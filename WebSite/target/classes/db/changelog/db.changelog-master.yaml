@@ -1,0 +1,10 @@
+databaseChangeLog:
+  - include:
+      file: createTables.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: insert.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: insertUser.yaml
+      relativeToChangelogFile: true

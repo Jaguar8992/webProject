@@ -1,8 +1,11 @@
 package main.model;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity
@@ -14,16 +17,15 @@ public class CaptchaCode {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column (nullable = false)
-    @Type(type = "date")
+    @Column (nullable = false, columnDefinition = "timestamp default current_timestamp")
     @Temporal(TemporalType.TIMESTAMP)
     private Date time;
 
     @Column (nullable = false)
-    private int code;
+    private String code;
 
     @Column (name = "secret_code", nullable = false)
-    private int secretCode;
+    private String secretCode;
 
     public int getId() {
         return id;
@@ -41,19 +43,19 @@ public class CaptchaCode {
         this.time = time;
     }
 
-    public int getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(int code) {
+    public void setCode(String code) {
         this.code = code;
     }
 
-    public int getSecretCode() {
+    public String getSecretCode() {
         return secretCode;
     }
 
-    public void setSecretCode(int secretCode) {
+    public void setSecretCode(String secretCode) {
         this.secretCode = secretCode;
     }
 }
