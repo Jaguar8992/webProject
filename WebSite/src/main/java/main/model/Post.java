@@ -1,9 +1,12 @@
 package main.model;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import javax.xml.crypto.Data;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -18,20 +21,19 @@ public class Post {
     @Column(name = "is_active", nullable = false)
     private int isActive;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "moderation_status", columnDefinition = "enum", nullable = false)
-    private ModerationStatus moderationStatus = ModerationStatus.NEW;
+    @Column(name = "moderation_status", nullable = false)
+    private String moderationStatus = "NEW";
 
     @Column(name = "moderation_id", nullable = true)
-    private int moderationId;
+    private Integer moderationId;
 
     @ManyToOne (cascade = CascadeType.ALL)
     private User user;
 
-    @Column (nullable = false)
-    @Type(type = "date")
+    @Column (nullable = false, columnDefinition = "timestamp default current_timestamp")
+    @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
-    private Data time;
+    private Date time = new Date();
 
     @Column (nullable = false)
     private String title;
@@ -70,11 +72,11 @@ public class Post {
         this.isActive = isActive;
     }
 
-    public ModerationStatus getModerationStatus() {
+    public String getModerationStatus() {
         return moderationStatus;
     }
 
-    public void setModerationStatus(ModerationStatus moderationStatus) {
+    public void setModerationStatus(String moderationStatus) {
         this.moderationStatus = moderationStatus;
     }
 
@@ -84,14 +86,6 @@ public class Post {
 
     public void setModerationId(int moderationId) {
         this.moderationId = moderationId;
-    }
-
-    public Data getTime() {
-        return time;
-    }
-
-    public void setTime(Data time) {
-        this.time = time;
     }
 
     public String getTitle() {
@@ -148,5 +142,13 @@ public class Post {
 
     public void setTags(List<Tag> tags) {
         this.tags = tags;
+    }
+
+    public Date getTime() {
+        return time;
+    }
+
+    public void setTime(Date time) {
+        this.time = time;
     }
 }

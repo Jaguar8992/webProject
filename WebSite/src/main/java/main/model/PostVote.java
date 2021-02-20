@@ -1,8 +1,11 @@
 package main.model;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity
@@ -20,8 +23,8 @@ public class PostVote {
     @ManyToOne (cascade = CascadeType.ALL)
     private Post post;
 
-    @Column (nullable = false)
-    @Type(type = "date")
+
+    @Column (nullable = false, columnDefinition = "timestamp default current_timestamp")
     @Temporal(TemporalType.TIMESTAMP)
     private Date time;
 

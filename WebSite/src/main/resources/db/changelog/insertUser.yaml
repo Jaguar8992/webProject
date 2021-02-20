@@ -1,0 +1,25 @@
+databaseChangeLog:
+- changeSet:
+    id: 3
+    author: liquibase
+    comment: "Create admin user"
+    changes:
+      - insert:
+          tableName: users
+          columns:
+            - column:
+                name: is_moderator
+                value: 1
+            - column:
+                name: name
+                value: "user"
+            - column:
+                name: password
+                value: "user"
+            - column:
+                name: email
+                value: "user@server.com"
+    rollback:
+      - delete:
+          tableName: users
+          where: name in ('user')

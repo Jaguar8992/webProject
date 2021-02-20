@@ -1,7 +1,10 @@
 package main.model;
 
-import org.hibernate.annotations.Cascade;
+import jdk.jfr.Timestamp;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.Type;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.dialect.unique.DefaultUniqueDelegate;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -19,8 +22,8 @@ public class User {
     @Column(name = "is_moderator", nullable = false)
     private int isModerator;
 
-    @Column (name = "reg_time", nullable = false)
-    @Type(type = "date")
+
+    @Column (name = "reg_time", nullable = false, columnDefinition = "timestamp default current_timestamp")
     @Temporal(TemporalType.TIMESTAMP)
     private Date regTime;
 
