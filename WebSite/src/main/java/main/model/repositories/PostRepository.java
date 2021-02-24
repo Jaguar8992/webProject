@@ -3,37 +3,42 @@ package main.model.repositories;
 import main.model.Post;
 import org.hibernate.mapping.Value;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 
-public interface PostRepository  extends CrudRepository <Post, Integer> {
+
+public interface PostRepository  extends JpaRepository <Post, Integer> {
 
     @Query("SELECT count(*) FROM Post WHERE moderation_status=\'ACCEPTED\' and is_active=1 and time < CURRENT_TIMESTAMP()")
-    public long count();
+    long count();
 
-    @Query(value = "SELECT * FROM posts WHERE moderation_status=\'ACCEPTED\' and is_active=1 and time < CURRENT_TIMESTAMP()" +
-            " ORDER BY time DESC LIMIT :offset, :limit", nativeQuery = true)
-    public Iterable<Post> getRecent (@Param("limit") Integer limit, @Param("offset") Integer offset);
+    @Query ("FROM Post where moderationStatus=\'ACCEPTED' and isActive=1 " +
+            "and time < CURRENT_TIMESTAMP() and title LIKE CONCAT(:query,'%')" +
+            " ORDER BY time DESC")
+    List<Post> getRecent (@Param("query") String query, Pageable pageable);
 
-    @Query(value = "SELECT * FROM posts JOIN post_comments ON post_comments.post_id = id" +
-            "WHERE moderation_status=\'ACCEPTED\' and is_active=1 and time < CURRENT_TIMESTAMP()" +
-            " ORDER BY count(post_comments.id) DESC LIMIT :offset, :limit", nativeQuery = true)
-    public Iterable<Post> getPopular (@Param("limit") Integer limit, @Param("offset") Integer offset);
+    @Query("FROM Post post LEFT JOIN PostComment pc ON pc.post = post.id" +
+            " WHERE post.moderationStatus=\'ACCEPTED\' and post.isActive=1 " +
+            "and post.time < CURRENT_TIMESTAMP() GROUP BY post.id ORDER BY count(pc.id) DESC")
+    List<Post> getPopular(Pageable pageable);
 
-    @Query(value = "SELECT * FROM posts JOIN post_votes ON post_votes.post_id = id " +
-            "WHERE moderation_status=\'ACCEPTED\' and is_active=1 and time < CURRENT_TIMESTAMP()" +
-            " ORDER BY count(post_votes.id) DESC LIMIT :offset, :limit", nativeQuery = true)
-    public Iterable<Post> getBest (@Param("limit") Integer limit, @Param("offset") Integer offset);
+    @Query("FROM Post post LEFT JOIN PostVote pv ON pv.post = post.id " +
+            "WHERE post.moderationStatus=\'ACCEPTED\' and pv.value = 1 and post.isActive=1 " +
+            "and post.time < CURRENT_TIMESTAMP() GROUP BY post.id ORDER BY count(pv.id) DESC")
+    List<Post> getBest (Pageable pageable);
 
-    @Query(value = "SELECT * FROM posts WHERE moderation_status=\'ACCEPTED\' and is_active=1 and time < CURRENT_TIMESTAMP()" +
-            " ORDER BY time LIMIT :offset, :limit" , nativeQuery = true)
-    public Iterable<Post> getEarly (@Param("limit") Integer limit, @Param("offset") Integer offset);
+    @Query("FROM Post WHERE moderationStatus=\'ACCEPTED\' and isActive=1 " +
+            "and time < CURRENT_TIMESTAMP() ORDER BY time")
+    List<Post> getEarly (Pageable pageable);
 
-    @Query(value = "SELECT count(*) FROM posts JOIN tag2post ON tag2post.post_id = posts.id" +
-            " JOIN tags ON tags.id = tag2post.tag_id WHERE tags.id =:tag", nativeQuery = true)
-    public int getCountByTag (@Param("tag") Integer tag);
+    @Query("SELECT count(*) FROM Post post JOIN TagToPost tp ON tp.postId = post.id" +
+            " JOIN Tag tag ON tag.id = tp.tagId WHERE tag.id =:tag")
+    int getCountByTag (@Param("tag") Integer tag);
 }
 

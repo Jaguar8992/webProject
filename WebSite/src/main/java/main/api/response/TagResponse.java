@@ -1,21 +1,21 @@
 package main.api.response;
 
-import main.service.ServiceData.TagWeight;
+import main.service.dto.DTOTag;
 
 import java.util.List;
 
 public class TagResponse {
-    private List<TagWeight> tags;
+    private List<DTOTag> tags;
 
-    public TagResponse(List<TagWeight> tags) {
+    public TagResponse(List<DTOTag> tags) {
         this.tags = tags;
     }
 
-    public List<TagWeight> getTags() {
+    public List<DTOTag> getTags() {
         return tags;
     }
 
-    public void setTags(List<TagWeight> tags) {
+    public void setTags(List<DTOTag> tags) {
         this.tags = tags;
     }
 }

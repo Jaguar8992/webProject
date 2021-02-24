@@ -1,11 +1,11 @@
-package main.service.ServiceData;
+package main.service.dto;
 
-public class UserBody {
+public class DTOUser {
 
     private int id;
     private String name;
 
-    public UserBody(int id, String name) {
+    public DTOUser(int id, String name) {
         this.id = id;
         this.name = name;
     }

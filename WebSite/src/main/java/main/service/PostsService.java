@@ -6,9 +6,10 @@ import main.model.User;
 import main.model.repositories.PostCommentsRepository;
 import main.model.repositories.PostRepository;
 import main.model.repositories.PostVoteRepository;
-import main.service.ServiceData.PostBody;
-import main.service.ServiceData.UserBody;
+import main.service.dto.DTOPost;
+import main.service.dto.DTOUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 
@@ -16,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class PostsResponseFactory {
+public class PostsService {
 
     @Autowired
     private PostVoteRepository voteRepository;
@@ -26,51 +27,45 @@ public class PostsResponseFactory {
     private PostRepository repository;
 
 
-    public PostsResponse getPostsResponse(Integer offset, Integer limit, String mode) {
+    public PostsResponse getPostsResponse(Integer offset, Integer limit, String mode, String query) {
 
         PostsResponse response = new PostsResponse();
-        List <Post> posts = getPostList(offset, limit, mode);
-        List <PostBody> responsePosts = new ArrayList<>();
+        List <Post> posts = getPostList(offset, limit, mode, query);
+        List <DTOPost> responsePosts = new ArrayList<>();
+
         for (Post post : posts){
             User user = post.getUser();
-            PostBody postBody = new PostBody();
-            postBody.setId(post.getId());
-            postBody.setTimestamp(post.getTime().getTime());
-            postBody.setUser(new UserBody(user.getId(), user.getName()));
-            postBody.setTitle(post.getTitle());
-            postBody.setAnnounce(getAnnounce(post.getText()));
-            postBody.setLikeCount(voteRepository.getCountForPost(post.getId(), 1));
-            postBody.setDislikeCount(voteRepository.getCountForPost(post.getId(), -1));
-            postBody.setCommentCount(commentsRepository.getCountForPost(post.getId()));
-            postBody.setViewCount(post.getViewCount());
-            responsePosts.add(postBody);
+            DTOUser dtoUser = new DTOUser(user.getId(), user.getName());
+            DTOPost dtoPost = new DTOPost(post.getId(),
+                    post.getTime().getTime() / 1000, dtoUser,
+                    post.getTitle(), getAnnounce(post.getText()),
+                    voteRepository.getCountForPost(post, 1),
+                    voteRepository.getCountForPost(post, -1),
+                    commentsRepository.getCountForPost(post),post.getViewCount());
+            responsePosts.add(dtoPost);
         }
         response.setCount(repository.count());
         response.setPosts(responsePosts);
         return response;
     }
 
-    private List<Post> getPostList (Integer offset, Integer limit, String mode){
-        List <Post> posts = new ArrayList<>();
-        Iterable<Post> postIterator;
+    private List<Post> getPostList (Integer offset, Integer limit, String mode, String query){
+        List <Post> posts;
         switch (mode) {
             case  ("recent"):
-                postIterator = repository.getRecent(limit, offset);
+                posts = repository.getRecent(query, PageRequest.of(offset, limit));
                 break;
             case  ("popular"):
-                postIterator = repository.getPopular(limit, offset);
+                posts = repository.getPopular(PageRequest.of(offset, limit));
                 break;
             case  ("best"):
-                postIterator = repository.getBest(limit, offset);
+                posts = repository.getBest( PageRequest.of(offset, limit));
                 break;
             case  ("early"):
-                postIterator = repository.getEarly(limit, offset);
+                posts = repository.getEarly(PageRequest.of(offset, limit));
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + mode);
-        }
-        for (Post post : postIterator){
-            posts.add(post);
         }
         return posts;
     }

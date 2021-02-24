@@ -21,6 +21,7 @@ public class ApiGeneralController {
         this.tagsService = tagsService;
     }
     @GetMapping("/tag")
+    @ResponseBody
     private TagResponse tag (String query){
         if (query == null){
             query = "";

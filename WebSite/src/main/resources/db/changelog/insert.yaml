@@ -66,7 +66,7 @@ databaseChangeLog:
                 value: 0
             - column:
                 name: moderation_status
-                value: "ACCEPTED"
+                value: "NEW"
             - column:
                 name: user_id
                 value: 2
@@ -114,7 +114,19 @@ databaseChangeLog:
           columns:
             - column:
                 name: name
+                value: "Hibernate"
+      - insert:
+          tableName: tags
+          columns:
+            - column:
+                name: name
                 value: "Spring"
+      - insert:
+          tableName: tags
+          columns:
+            - column:
+                name: name
+                value: "Hadoop"
       - insert:
           tableName: tag2post
           columns:

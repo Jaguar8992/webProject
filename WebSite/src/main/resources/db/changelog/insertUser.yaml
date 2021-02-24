@@ -9,7 +9,7 @@ databaseChangeLog:
           columns:
             - column:
                 name: is_moderator
-                value: 1
+                value: 0
             - column:
                 name: name
                 value: "user"
@@ -19,7 +19,108 @@ databaseChangeLog:
             - column:
                 name: email
                 value: "user@server.com"
-    rollback:
-      - delete:
+      - insert:
           tableName: users
-          where: name in ('user')
+          columns:
+            - column:
+                name: is_moderator
+                value: 0
+            - column:
+                name: name
+                value: "ivan"
+            - column:
+                name: password
+                value: "ivan"
+            - column:
+                name: email
+                value: "ivan@server.com"
+      - insert:
+          tableName: users
+          columns:
+            - column:
+                name: is_moderator
+                value: 0
+            - column:
+                name: name
+                value: "petr"
+            - column:
+                name: password
+                value: "petr"
+            - column:
+                name: email
+                value: "petr@server.com"
+      - insert:
+          tableName: users
+          columns:
+            - column:
+                name: is_moderator
+                value: 0
+            - column:
+                name: name
+                value: "vova"
+            - column:
+                name: password
+                value: "vova"
+            - column:
+                name: email
+                value: "vova@server.com"
+      - insert:
+          tableName: users
+          columns:
+            - column:
+                name: is_moderator
+                value: 0
+            - column:
+                name: name
+                value: "vadik"
+            - column:
+                name: password
+                value: "vadik"
+            - column:
+                name: email
+                value: "vadik@server.com"
+      - insert:
+          tableName: users
+          columns:
+            - column:
+                name: is_moderator
+                value: 0
+            - column:
+                name: name
+                value: "fedya"
+            - column:
+                name: password
+                value: "fedya"
+            - column:
+                name: email
+                value: "fedya@server.com"
+      - insert:
+          tableName: users
+          columns:
+            - column:
+                name: is_moderator
+                value: 0
+            - column:
+                name: name
+                value: "oleg"
+            - column:
+                name: password
+                value: "oleg"
+            - column:
+                name: email
+                value: "oleg@server.com"
+      - insert:
+          tableName: users
+          columns:
+            - column:
+                name: is_moderator
+                value: 0
+            - column:
+                name: name
+                value: "vitya"
+            - column:
+                name: password
+                value: "vitya"
+            - column:
+                name: email
+                value: "vitya@server.com"

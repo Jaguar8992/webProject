@@ -18,7 +18,7 @@ public class PostComment {
     private int id;
 
     @Column (name = "parent_id", nullable = true)
-    private int parentId;
+    private Integer parentId;
 
     @ManyToOne (cascade = CascadeType.ALL)
     private Post post;

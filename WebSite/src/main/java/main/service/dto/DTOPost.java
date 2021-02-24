@@ -1,16 +1,28 @@
-package main.service.ServiceData;
+package main.service.dto;
 
-public class PostBody {
+public class DTOPost {
 
     private int id;
     private long timestamp;
-    private UserBody user;
+    private DTOUser user;
     private String title;
     private String announce;
     private int likeCount;
     private int dislikeCount;
     private int commentCount;
     private int viewCount;
+
+    public DTOPost(int id, long timestamp, DTOUser user, String title, String announce, int likeCount, int dislikeCount, int commentCount, int viewCount) {
+        this.id = id;
+        this.timestamp = timestamp;
+        this.user = user;
+        this.title = title;
+        this.announce = announce;
+        this.likeCount = likeCount;
+        this.dislikeCount = dislikeCount;
+        this.commentCount = commentCount;
+        this.viewCount = viewCount;
+    }
 
     public int getId() {
         return id;
@@ -28,11 +40,11 @@ public class PostBody {
         this.timestamp = timestamp;
     }
 
-    public UserBody getUser() {
+    public DTOUser getUser() {
         return user;
     }
 
-    public void setUser(UserBody user) {
+    public void setUser(DTOUser user) {
         this.user = user;
     }
 

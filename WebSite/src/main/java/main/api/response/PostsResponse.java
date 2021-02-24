@@ -1,13 +1,13 @@
 package main.api.response;
 
-import main.service.ServiceData.PostBody;
+import main.service.dto.DTOPost;
 
 import java.util.List;
 
 public class PostsResponse {
 
     private long count;
-    private List<PostBody> posts;
+    private List<DTOPost> posts;
 
     public long getCount() {
         return count;
@@ -17,11 +17,11 @@ public class PostsResponse {
         this.count = count;
     }
 
-    public List<PostBody> getPosts() {
+    public List<DTOPost> getPosts() {
         return posts;
     }
 
-    public void setPosts(List<PostBody> posts) {
+    public void setPosts(List<DTOPost> posts) {
         this.posts = posts;
     }
 }
