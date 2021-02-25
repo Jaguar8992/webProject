@@ -26,13 +26,13 @@ public class TagsService {
         if (tags.size() > 0) {
             Tag maxCountTag = tags.get(0);
             int postCount = (int) postRepository.count();
-            int mainTagCount = postRepository.getCountByTag(maxCountTag.getId());
+            int mainTagCount = postRepository.countByTagId(maxCountTag.getId());
 
             double dWeightMax = (double) mainTagCount / postCount;
             double k = 1 / dWeightMax;
 
             for (Tag tag : tags) {
-                int countByTag = postRepository.getCountByTag(tag.getId());
+                int countByTag = postRepository.countByTagId(tag.getId());
                 double tagCount = (double) countByTag / postCount;
                 double weight = tagCount * k;
                 DTOTag tagWeight = new DTOTag(tag.getName(), weight);
