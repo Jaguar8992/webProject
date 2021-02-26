@@ -28,15 +28,6 @@ public class ApiPostController {
     @GetMapping("")
     @ResponseBody
     private PostsResponse post( Integer offset, Integer limit, String mode){
-        if (offset==null){
-            offset = 0;
-        }
-        if (limit ==null){
-            limit = 10;
-        }
-        if (mode==null){
-            mode = "recent";
-        }
         Pageable page = PageRequest.of(offset / limit, limit);
         return postsService.getPostsResponse(page, mode);
     }
@@ -44,15 +35,6 @@ public class ApiPostController {
     @GetMapping("/search")
     @ResponseBody
     private PostsResponse search( Integer offset, Integer limit, String query){
-        if (offset==null){
-            offset = 0;
-        }
-        if (limit ==null){
-            limit = 10;
-        }
-        if (query==null){
-            query = "";
-        }
         Pageable page = PageRequest.of(offset / limit, limit);
         return postsService.getPostsResponseByQuery(page, query);
     }
@@ -60,12 +42,6 @@ public class ApiPostController {
     @GetMapping("/byDate")
     @ResponseBody
     private PostsResponse byDate (Integer offset, Integer limit, String date) throws ParseException {
-        if (offset==null){
-            offset = 0;
-        }
-        if (limit ==null){
-            limit = 10;
-        }
         Pageable page = PageRequest.of(offset / limit, limit);
         return postsService.getPostsResponseByDate(page, date);
     }
@@ -73,12 +49,6 @@ public class ApiPostController {
     @GetMapping("/byTag")
     @ResponseBody
     private PostsResponse byTag (Integer offset, Integer limit, String tag)  {
-        if (offset==null){
-            offset = 0;
-        }
-        if (limit ==null){
-            limit = 10;
-        }
         Pageable page = PageRequest.of(offset / limit, limit);
         return postsService.getPostsResponseByTag(page, tag);
     }
@@ -91,4 +61,5 @@ public class ApiPostController {
         }
         return new ResponseEntity(response, HttpStatus.OK);
     }
+
 }

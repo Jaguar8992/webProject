@@ -5,7 +5,6 @@ import main.model.PostComment;
 import main.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 public interface UserRepository extends JpaRepository<User, Integer> {
@@ -15,4 +14,11 @@ public interface UserRepository extends JpaRepository<User, Integer> {
 
     @Query("FROM User user LEFT JOIN PostComment pc ON pc.user = user.id WHERE pc = :postComment")
     User getByComment (@Param("postComment") PostComment postComment);
+
+    @Query("FROM User WHERE email= :email")
+    User getByEmail (@Param("email") String email);
+
+    @Query("FROM User WHERE name= :name")
+    User getByName (@Param("name") String name);
+
 }

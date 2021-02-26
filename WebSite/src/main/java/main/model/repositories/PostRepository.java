@@ -1,13 +1,9 @@
 package main.model.repositories;
 
 import main.model.Post;
-import org.hibernate.mapping.Value;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import java.util.Date;
@@ -67,7 +63,7 @@ public interface PostRepository  extends JpaRepository <Post, Integer> {
 
     @Query ("FROM Post where moderationStatus=\'ACCEPTED' and isActive=1 " +
             "and time < CURRENT_TIMESTAMP() and DATE(time) = :date")
-    List<Post> getPostsByDate (@Param("date") Date query, Pageable pageable);
+    List<Post> getPostsByDate (@Param("date") Date date, Pageable pageable);
 
     @Query ("FROM Post post JOIN TagToPost tp ON tp.postId = post.id" +
             " JOIN Tag tag ON tag.id = tp.tagId WHERE tag.name =:tag")
