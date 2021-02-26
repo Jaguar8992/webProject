@@ -1,0 +1,234 @@
+databaseChangeLog:
+  - changeSet:
+      id: 5
+      author: liquibase
+      comment: "Add comments"
+      changes:
+        - insert:
+            tableName: post_comments
+            columns:
+              - column:
+                  name: post_id
+                  value: 3
+              - column:
+                  name: user_id
+                  value: 3
+              - column:
+                  name: text
+                  value: "its comment from quest"
+        - insert:
+            tableName: post_comments
+            columns:
+              - column:
+                  name: post_id
+                  value: 4
+              - column:
+                  name: user_id
+                  value: 4
+              - column:
+                  name: text
+                  value: "its comment from quest"
+        - insert:
+            tableName: post_comments
+            columns:
+              - column:
+                  name: post_id
+                  value: 2
+              - column:
+                  name: user_id
+                  value: 5
+              - column:
+                  name: text
+                  value: "its comment from quest"
+        - insert:
+            tableName: post_comments
+            columns:
+              - column:
+                  name: post_id
+                  value: 2
+              - column:
+                  name: user_id
+                  value: 6
+              - column:
+                  name: text
+                  value: "its comment from quest"
+        - insert:
+            tableName: post_comments
+            columns:
+              - column:
+                  name: post_id
+                  value: 2
+              - column:
+                  name: user_id
+                  value: 7
+              - column:
+                  name: text
+                  value: "its comment from quest"
+        - insert:
+            tableName: post_comments
+            columns:
+              - column:
+                  name: post_id
+                  value: 3
+              - column:
+                  name: user_id
+                  value: 9
+              - column:
+                  name: text
+                  value: "its comment from quest"
+        - insert:
+            tableName: post_comments
+            columns:
+              - column:
+                  name: post_id
+                  value: 1
+              - column:
+                  name: user_id
+                  value: 6
+              - column:
+                  name: text
+                  value: "its comment from quest"
+        - insert:
+            tableName: post_comments
+            columns:
+              - column:
+                  name: post_id
+                  value: 3
+              - column:
+                  name: user_id
+                  value: 4
+              - column:
+                  name: text
+                  value: "its comment from quest"
+        - insert:
+            tableName: post_comments
+            columns:
+              - column:
+                  name: post_id
+                  value: 7
+              - column:
+                  name: user_id
+                  value: 8
+              - column:
+                  name: text
+                  value: "its comment from quest"
+        - insert:
+            tableName: post_comments
+            columns:
+              - column:
+                  name: post_id
+                  value: 5
+              - column:
+                  name: user_id
+                  value: 4
+              - column:
+                  name: text
+                  value: "its comment from quest"
+        - insert:
+            tableName: post_comments
+            columns:
+              - column:
+                  name: post_id
+                  value: 1
+              - column:
+                  name: user_id
+                  value: 2
+              - column:
+                  name: text
+                  value: "its comment from quest"
+        - insert:
+            tableName: post_comments
+            columns:
+              - column:
+                  name: post_id
+                  value: 2
+              - column:
+                  name: user_id
+                  value: 2
+              - column:
+                  name: text
+                  value: "its comment from quest"
+        - insert:
+            tableName: post_comments
+            columns:
+              - column:
+                  name: post_id
+                  value: 2
+              - column:
+                  name: user_id
+                  value: 2
+              - column:
+                  name: text
+                  value: "its comment from quest"
+        - insert:
+            tableName: post_comments
+            columns:
+              - column:
+                  name: post_id
+                  value: 2
+              - column:
+                  name: user_id
+                  value: 2
+              - column:
+                  name: text
+                  value: "its comment from quest"
+        - insert:
+            tableName: post_comments
+            columns:
+              - column:
+                  name: post_id
+                  value: 2
+              - column:
+                  name: user_id
+                  value: 2
+              - column:
+                  name: text
+                  value: "its comment from quest"
+        - insert:
+            tableName: post_comments
+            columns:
+              - column:
+                  name: post_id
+                  value: 2
+              - column:
+                  name: user_id
+                  value: 2
+              - column:
+                  name: text
+                  value: "its comment from quest"
+        - insert:
+            tableName: post_comments
+            columns:
+              - column:
+                  name: post_id
+                  value: 2
+              - column:
+                  name: user_id
+                  value: 2
+              - column:
+                  name: text
+                  value: "its comment from quest"
+        - insert:
+            tableName: post_comments
+            columns:
+              - column:
+                  name: post_id
+                  value: 12
+              - column:
+                  name: user_id
+                  value: 4
+              - column:
+                  name: text
+                  value: "its comment from quest"
+        - insert:
+            tableName: post_comments
+            columns:
+              - column:
+                  name: post_id
+                  value: 2
+              - column:
+                  name: user_id
+                  value: 2
+              - column:
+                  name: text
+                  value: "its comment from quest"

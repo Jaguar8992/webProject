@@ -1,0 +1,498 @@
+databaseChangeLog:
+  - changeSet:
+      id: 4
+      author: liquibase
+      comment: "Add posts"
+      changes:
+      - insert:
+          tableName: posts
+          columns:
+            - column:
+                name: is_active
+                value: 1
+            - column:
+                name: moderation_status
+                value: "ACCEPTED"
+            - column:
+                name: user_id
+                value: 2
+            - column:
+                name: title
+                value: "Main"
+            - column:
+                name: text
+                value: "some text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some textsome text some text"
+            - column:
+                name: view_count
+                value: 10
+      - insert:
+          tableName: posts
+          columns:
+            - column:
+                name: is_active
+                value: 1
+            - column:
+                name: moderation_status
+                value: "ACCEPTED"
+            - column:
+                name: user_id
+                value: 3
+            - column:
+                name: title
+                value: "Main"
+            - column:
+                name: text
+                value: "some text some text"
+            - column:
+                name: view_count
+                value: 8
+      - insert:
+          tableName: posts
+          columns:
+            - column:
+                name: is_active
+                value: 1
+            - column:
+                name: moderation_status
+                value: "ACCEPTED"
+            - column:
+                name: user_id
+                value: 4
+            - column:
+                name: title
+                value: "Main"
+            - column:
+                name: text
+                value: "some text some text"
+            - column:
+                name: view_count
+                value: 9
+      - insert:
+          tableName: posts
+          columns:
+            - column:
+                name: is_active
+                value: 1
+            - column:
+                name: moderation_status
+                value: "ACCEPTED"
+            - column:
+                name: user_id
+                value: 7
+            - column:
+                name: title
+                value: "title"
+            - column:
+                name: text
+                value: "some text some text"
+            - column:
+                name: view_count
+                value: 7
+      - insert:
+          tableName: posts
+          columns:
+            - column:
+                name: is_active
+                value: 1
+            - column:
+                name: moderation_status
+                value: "ACCEPTED"
+            - column:
+                name: user_id
+                value: 1
+            - column:
+                name: title
+                value: "title"
+            - column:
+                name: text
+                value: "some text some text"
+            - column:
+                name: view_count
+                value: 7
+      - insert:
+          tableName: posts
+          columns:
+            - column:
+                name: is_active
+                value: 1
+            - column:
+                name: moderation_status
+                value: "ACCEPTED"
+            - column:
+                name: user_id
+                value: 1
+            - column:
+                name: title
+                value: "title"
+            - column:
+                name: text
+                value: "some text some text"
+            - column:
+                name: view_count
+                value: 11
+      - insert:
+          tableName: posts
+          columns:
+            - column:
+                name: is_active
+                value: 1
+            - column:
+                name: moderation_status
+                value: "ACCEPTED"
+            - column:
+                name: user_id
+                value: 2
+            - column:
+                name: title
+                value: "title"
+            - column:
+                name: text
+                value: "some text some text"
+            - column:
+                name: view_count
+                value: 13
+      - insert:
+          tableName: posts
+          columns:
+            - column:
+                name: is_active
+                value: 1
+            - column:
+                name: moderation_status
+                value: "ACCEPTED"
+            - column:
+                name: user_id
+                value: 3
+            - column:
+                name: title
+                value: "title"
+            - column:
+                name: text
+                value: "some text some text"
+            - column:
+                name: view_count
+                value: 21
+      - insert:
+          tableName: posts
+          columns:
+            - column:
+                name: is_active
+                value: 1
+            - column:
+                name: moderation_status
+                value: "ACCEPTED"
+            - column:
+                name: user_id
+                value: 2
+            - column:
+                name: title
+                value: "title"
+            - column:
+                name: text
+                value: "some text some text"
+            - column:
+                name: view_count
+                value: 12
+      - insert:
+          tableName: posts
+          columns:
+            - column:
+                name: is_active
+                value: 1
+            - column:
+                name: moderation_status
+                value: "ACCEPTED"
+            - column:
+                name: user_id
+                value: 3
+            - column:
+                name: title
+                value: "title"
+            - column:
+                name: text
+                value: "some text some text"
+            - column:
+                name: view_count
+                value: 5
+      - insert:
+          tableName: posts
+          columns:
+            - column:
+                name: is_active
+                value: 1
+            - column:
+                name: moderation_status
+                value: "ACCEPTED"
+            - column:
+                name: user_id
+                value: 7
+            - column:
+                name: title
+                value: "title"
+            - column:
+                name: text
+                value: "some text some text"
+            - column:
+                name: view_count
+                value: 15
+      - insert:
+          tableName: posts
+          columns:
+            - column:
+                name: is_active
+                value: 1
+            - column:
+                name: moderation_status
+                value: "ACCEPTED"
+            - column:
+                name: user_id
+                value: 1
+            - column:
+                name: title
+                value: "title"
+            - column:
+                name: text
+                value: "some text some text"
+            - column:
+                name: view_count
+                value: 7
+      - insert:
+          tableName: posts
+          columns:
+            - column:
+                name: is_active
+                value: 1
+            - column:
+                name: moderation_status
+                value: "ACCEPTED"
+            - column:
+                name: user_id
+                value: 3
+            - column:
+                name: title
+                value: "title"
+            - column:
+                name: text
+                value: "some text some text"
+            - column:
+                name: view_count
+                value: 12
+      - insert:
+          tableName: posts
+          columns:
+            - column:
+                name: is_active
+                value: 1
+            - column:
+                name: moderation_status
+                value: "ACCEPTED"
+            - column:
+                name: user_id
+                value: 4
+            - column:
+                name: title
+                value: "title"
+            - column:
+                name: text
+                value: "some text some text"
+            - column:
+                name: view_count
+                value: 5
+      - insert:
+          tableName: posts
+          columns:
+            - column:
+                name: is_active
+                value: 1
+            - column:
+                name: moderation_status
+                value: "ACCEPTED"
+            - column:
+                name: user_id
+                value: 8
+            - column:
+                name: title
+                value: "title"
+            - column:
+                name: text
+                value: "some text some text"
+            - column:
+                name: view_count
+                value: 12
+      - insert:
+          tableName: posts
+          columns:
+            - column:
+                name: is_active
+                value: 1
+            - column:
+                name: moderation_status
+                value: "ACCEPTED"
+            - column:
+                name: user_id
+                value: 2
+            - column:
+                name: title
+                value: "title"
+            - column:
+                name: text
+                value: "some text some text"
+            - column:
+                name: view_count
+                value: 11
+      - insert:
+          tableName: posts
+          columns:
+            - column:
+                name: is_active
+                value: 1
+            - column:
+                name: moderation_status
+                value: "ACCEPTED"
+            - column:
+                name: user_id
+                value: 1
+            - column:
+                name: title
+                value: "title"
+            - column:
+                name: text
+                value: "some text some text"
+            - column:
+                name: view_count
+                value: 12
+      - insert:
+          tableName: posts
+          columns:
+            - column:
+                name: is_active
+                value: 1
+            - column:
+                name: moderation_status
+                value: "ACCEPTED"
+            - column:
+                name: user_id
+                value: 5
+            - column:
+                name: title
+                value: "title"
+            - column:
+                name: text
+                value: "some text some text"
+            - column:
+                name: view_count
+                value: 11
+      - insert:
+          tableName: posts
+          columns:
+            - column:
+                name: is_active
+                value: 1
+            - column:
+                name: moderation_status
+                value: "ACCEPTED"
+            - column:
+                name: user_id
+                value: 6
+            - column:
+                name: title
+                value: "title"
+            - column:
+                name: text
+                value: "some text some text"
+            - column:
+                name: view_count
+                value: 8
+      - insert:
+          tableName: posts
+          columns:
+            - column:
+                name: is_active
+                value: 1
+            - column:
+                name: moderation_status
+                value: "ACCEPTED"
+            - column:
+                name: user_id
+                value: 4
+            - column:
+                name: time
+                value: "2020-12-20 23:10:11"
+            - column:
+                name: title
+                value: "title"
+            - column:
+                name: text
+                value: "some text some text"
+            - column:
+                name: view_count
+                value: 22
+      - insert:
+          tableName: posts
+          columns:
+            - column:
+                name: is_active
+                value: 1
+            - column:
+                name: moderation_status
+                value: "ACCEPTED"
+            - column:
+                name: user_id
+                value: 2
+            - column:
+                name: time
+                value: "2020-12-20 23:10:11"
+            - column:
+                name: title
+                value: "title"
+            - column:
+                name: text
+                value: "some text some text"
+            - column:
+                name: view_count
+                value: 20
+      - insert:
+          tableName: posts
+          columns:
+            - column:
+                name: is_active
+                value: 0
+            - column:
+                name: moderation_status
+                value: "DECLINED"
+            - column:
+                name: user_id
+                value: 3
+            - column:
+                name: title
+                value: "title"
+            - column:
+                name: text
+                value: "some text some text"
+            - column:
+                name: view_count
+                value: 1
+      - insert:
+          tableName: posts
+          columns:
+            - column:
+                name: is_active
+                value: 1
+            - column:
+                name: moderation_status
+                value: "ACCEPTED"
+            - column:
+                name: user_id
+                value: 1
+            - column:
+                name: title
+                value: "title"
+            - column:
+                name: text
+                value: "some text some text"
+            - column:
+                name: view_count
+                value: 1
+
+
+

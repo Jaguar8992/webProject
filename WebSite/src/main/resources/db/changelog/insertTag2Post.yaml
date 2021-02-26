@@ -1,0 +1,213 @@
+databaseChangeLog:
+    - changeSet:
+        id: 7
+        author: liquibase
+        comment: "Insert tag2post"
+        changes:
+          - insert:
+              tableName: tag2post
+              columns:
+                - column:
+                    name: post_id
+                    value: 1
+                - column:
+                    name: tag_id
+                    value: 4
+          - insert:
+              tableName: tag2post
+              columns:
+                - column:
+                    name: post_id
+                    value: 2
+                - column:
+                    name: tag_id
+                    value: 3
+          - insert:
+              tableName: tag2post
+              columns:
+                - column:
+                    name: post_id
+                    value: 5
+                - column:
+                    name: tag_id
+                    value: 1
+          - insert:
+              tableName: tag2post
+              columns:
+                - column:
+                    name: post_id
+                    value: 5
+                - column:
+                    name: tag_id
+                    value: 1
+          - insert:
+              tableName: tag2post
+              columns:
+                - column:
+                    name: post_id
+                    value: 6
+                - column:
+                    name: tag_id
+                    value: 1
+          - insert:
+              tableName: tag2post
+              columns:
+                - column:
+                    name: post_id
+                    value: 7
+                - column:
+                    name: tag_id
+                    value: 1
+          - insert:
+              tableName: tag2post
+              columns:
+                - column:
+                    name: post_id
+                    value: 8
+                - column:
+                    name: tag_id
+                    value: 1
+          - insert:
+              tableName: tag2post
+              columns:
+                - column:
+                    name: post_id
+                    value: 9
+                - column:
+                    name: tag_id
+                    value: 1
+          - insert:
+              tableName: tag2post
+              columns:
+                - column:
+                    name: post_id
+                    value: 10
+                - column:
+                    name: tag_id
+                    value: 1
+          - insert:
+              tableName: tag2post
+              columns:
+                - column:
+                    name: post_id
+                    value: 11
+                - column:
+                    name: tag_id
+                    value: 2
+          - insert:
+              tableName: tag2post
+              columns:
+                - column:
+                    name: post_id
+                    value: 12
+                - column:
+                    name: tag_id
+                    value: 2
+          - insert:
+              tableName: tag2post
+              columns:
+                - column:
+                    name: post_id
+                    value: 13
+                - column:
+                    name: tag_id
+                    value: 3
+          - insert:
+              tableName: tag2post
+              columns:
+                - column:
+                    name: post_id
+                    value: 14
+                - column:
+                    name: tag_id
+                    value: 4
+          - insert:
+              tableName: tag2post
+              columns:
+                - column:
+                    name: post_id
+                    value: 15
+                - column:
+                    name: tag_id
+                    value: 3
+          - insert:
+              tableName: tag2post
+              columns:
+                - column:
+                    name: post_id
+                    value: 16
+                - column:
+                    name: tag_id
+                    value: 3
+          - insert:
+              tableName: tag2post
+              columns:
+                - column:
+                    name: post_id
+                    value: 17
+                - column:
+                    name: tag_id
+                    value: 2
+          - insert:
+              tableName: tag2post
+              columns:
+                - column:
+                    name: post_id
+                    value: 18
+                - column:
+                    name: tag_id
+                    value: 4
+          - insert:
+              tableName: tag2post
+              columns:
+                - column:
+                    name: post_id
+                    value: 19
+                - column:
+                    name: tag_id
+                    value: 3
+          - insert:
+              tableName: tag2post
+              columns:
+                - column:
+                    name: post_id
+                    value: 20
+                - column:
+                    name: tag_id
+                    value: 3
+          - insert:
+              tableName: tag2post
+              columns:
+                - column:
+                    name: post_id
+                    value: 21
+                - column:
+                    name: tag_id
+                    value: 4
+          - insert:
+              tableName: tag2post
+              columns:
+                - column:
+                    name: post_id
+                    value: 22
+                - column:
+                    name: tag_id
+                    value: 1
+          - insert:
+              tableName: tag2post
+              columns:
+                - column:
+                    name: post_id
+                    value: 23
+                - column:
+                    name: tag_id
+                    value: 2
+          - insert:
+              tableName: tag2post
+              columns:
+                - column:
+                    name: post_id
+                    value: 25
+                - column:
+                    name: tag_id
+                    value: 1
