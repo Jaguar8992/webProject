@@ -6,6 +6,8 @@ import main.model.repositories.GlobalSettingsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class SettingService {
 
@@ -14,18 +16,18 @@ public class SettingService {
 
     public SettingsResponse getGlobalSetting(){
         SettingsResponse settingsResponse = new SettingsResponse();
-        Iterable<GlobalSetting> settings = repository.findAll();
+        List<GlobalSetting> settings = repository.findAll();
 
         for (GlobalSetting setting : settings){
             switch (setting.getCode()){
                 case ("MULTIUSER_MODE"):
-                    settingsResponse.setMultiUserMode(setting.getValue().equals("YES") ? true : false);
+                    settingsResponse.setMultiUserMode(setting.getValue().equals("YES"));
                     break;
                 case ("POST_PREMODERATION"):
-                    settingsResponse.setPostPreModeration(setting.getValue().equals("YES") ? true : false);
+                    settingsResponse.setPostPreModeration(setting.getValue().equals("YES"));
                     break;
                 case ("STATISTICS_IS_PUBLIC"):
-                    settingsResponse.setStatisticIsPublic(setting.getValue().equals("YES") ? true : false);
+                    settingsResponse.setStatisticIsPublic(setting.getValue().equals("YES"));
                     break;
             }
         } return settingsResponse;

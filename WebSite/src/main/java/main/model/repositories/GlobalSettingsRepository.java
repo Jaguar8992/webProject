@@ -1,8 +1,8 @@
 package main.model.repositories;
 
 import main.model.GlobalSetting;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface GlobalSettingsRepository extends CrudRepository <GlobalSetting, Integer> {
+public interface GlobalSettingsRepository extends JpaRepository<GlobalSetting, Integer> {
 
 }

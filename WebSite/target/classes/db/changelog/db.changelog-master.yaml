@@ -8,3 +8,15 @@ databaseChangeLog:
   - include:
       file: insertUser.yaml
       relativeToChangelogFile: true
+  - include:
+      file: insertPosts.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: insertComments.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: insertVotes.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: insertTag2Post.yaml
+      relativeToChangelogFile: true

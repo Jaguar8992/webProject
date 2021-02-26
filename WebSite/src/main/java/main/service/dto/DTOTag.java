@@ -1,11 +1,11 @@
-package main.service.ServiceData;
+package main.service.dto;
 
-public class TagWeight {
+public class DTOTag {
 
     private String name;
     private double weight;
 
-    public TagWeight(String name, double weight) {
+    public DTOTag(String name, double weight) {
         this.name = name;
         this.weight = weight;
     }

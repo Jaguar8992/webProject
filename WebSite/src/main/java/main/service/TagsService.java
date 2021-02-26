@@ -4,7 +4,7 @@ import main.api.response.TagResponse;
 import main.model.Tag;
 import main.model.repositories.PostRepository;
 import main.model.repositories.TagRepository;
-import main.service.ServiceData.TagWeight;
+import main.service.dto.DTOTag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,25 +20,24 @@ public class TagsService {
     private PostRepository postRepository;
 
     public TagResponse getTagResponse(String query) {
-        Iterable <Tag> tagIterable = tagRepository.getByQuery(query);
-        List <Tag> tags = new ArrayList<>();
-        for (Tag tag : tagIterable){
-            tags.add(tag);
-        }
-        Tag maxCountTag = tags.get(0);
-        int postCount = (int) postRepository.count();
-        int mainTagCount = postRepository.getCountByTag(maxCountTag.getId());
+        List <DTOTag> tagResponse = new ArrayList<>();
+        List <Tag> tags = tagRepository.getByQuery(query);
 
-        double dWeightMax = mainTagCount / postCount;
-        double k = 1 / dWeightMax;
+        if (tags.size() > 0) {
+            Tag maxCountTag = tags.get(0);
+            int postCount = (int) postRepository.count();
+            int mainTagCount = postRepository.countByTagId(maxCountTag.getId());
 
-        List <TagWeight> tagResponse = new ArrayList<>();
+            double dWeightMax = (double) mainTagCount / postCount;
+            double k = 1 / dWeightMax;
 
-        for (Tag tag : tags){
-            int countByTag = postRepository.getCountByTag(tag.getId());
-            double weight = countByTag / k;
-            TagWeight tagWeight = new TagWeight(tag.getName(), weight);
-            tagResponse.add(tagWeight);
+            for (Tag tag : tags) {
+                int countByTag = postRepository.countByTagId(tag.getId());
+                double tagCount = (double) countByTag / postCount;
+                double weight = tagCount * k;
+                DTOTag tagWeight = new DTOTag(tag.getName(), weight);
+                tagResponse.add(tagWeight);
+            }
         }
         return new TagResponse(tagResponse);
     }
