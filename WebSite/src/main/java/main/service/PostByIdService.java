@@ -6,7 +6,6 @@ import main.model.PostComment;
 import main.model.User;
 import main.model.repositories.*;
 import main.service.dto.DTOComment;
-import main.service.dto.DTOCommentUser;
 import main.service.dto.DTOUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,10 +58,11 @@ public class PostByIdService {
 
         for (PostComment comment : postComments){
             User user = userRepository.getByComment(comment);
-            DTOCommentUser dtoCommentUser = new DTOCommentUser(user.getId(), user.getName(), user.getPhoto());
+            DTOUser dtoUser = new DTOUser(user.getId(), user.getName());
+            dtoUser.setPhoto(user.getPhoto());
             DTOComment dtoComment = new DTOComment(comment.getId(),
                     comment.getTime().getTime() / 1000,
-                    comment.getText(), dtoCommentUser);
+                    comment.getText(), dtoUser);
             comments.add(dtoComment);
         }
         return comments;

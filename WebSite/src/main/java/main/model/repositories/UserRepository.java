@@ -15,10 +15,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     @Query("FROM User user LEFT JOIN PostComment pc ON pc.user = user.id WHERE pc = :postComment")
     User getByComment (@Param("postComment") PostComment postComment);
 
-    @Query("FROM User WHERE email= :email")
-    User getByEmail (@Param("email") String email);
+    User findByEmail(String email);
 
-    @Query("FROM User WHERE name= :name")
-    User getByName (@Param("name") String name);
+    User findByName(String name);
 
 }

@@ -5,6 +5,7 @@ import main.model.User;
 import main.model.repositories.CaptchaRepository;
 import main.model.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -25,10 +26,10 @@ public class RegisterService {
 
         Pattern namePattern = Pattern.compile("^[а-яА-Я ]*$");
 
-        if (userRepository.getByEmail(email) != null){
+        if (userRepository.findByEmail(email) != null){
             errors.put("email", "Этот e-mail уже зарегистрирован");
         }
-        if (userRepository.getByName(name) != null){
+        if (userRepository.findByName(name) != null){
             errors.put("name", "Это имя уже занято");
         }
         if (!namePattern.matcher(name).find()){
@@ -57,7 +58,7 @@ public class RegisterService {
         User user = new User();
         user.setEmail(email);
         user.setName(name);
-        user.setPassword(password);
+        user.setPassword(new BCryptPasswordEncoder().encode(password));
         user.setRegTime(new Date());
         userRepository.save(user);
     }

@@ -1,6 +1,7 @@
 package main.model.repositories;
 
 import main.model.Post;
+import main.model.User;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -50,8 +51,9 @@ public interface PostRepository  extends JpaRepository <Post, Integer> {
     List<Post> getPopular(Pageable pageable);
 
     @Query("FROM Post post LEFT JOIN PostVote pv ON pv.post = post.id " +
-            "WHERE post.moderationStatus=\'ACCEPTED\' and pv.value = 1 and post.isActive=1 " +
-            "and post.time < CURRENT_TIMESTAMP() GROUP BY post.id ORDER BY count(pv.id) DESC")
+            "WHERE post.moderationStatus=\'ACCEPTED\' and post.isActive=1 " +
+            "and post.time < CURRENT_TIMESTAMP() GROUP BY post.id " +
+            "ORDER BY sum(CASE WHEN pv.value=1 THEN 1 ELSE 0 END) DESC")
     List<Post> getBest (Pageable pageable);
 
     @Query("FROM Post WHERE moderationStatus=\'ACCEPTED\' and isActive=1 " +
@@ -68,5 +70,21 @@ public interface PostRepository  extends JpaRepository <Post, Integer> {
     @Query ("FROM Post post JOIN TagToPost tp ON tp.postId = post.id" +
             " JOIN Tag tag ON tag.id = tp.tagId WHERE tag.name =:tag")
     List<Post> getPostsByTag (@Param("tag") String tag, Pageable pageable);
+
+    // GetMy
+    @Query("SELECT count(*) FROM Post WHERE user =:user")
+    int countForUser (@Param("user") User user);
+
+    @Query("FROM Post WHERE user =:user AND isActive = 0")
+    List <Post> findInactive (@Param("user") User user, Pageable pageable);
+
+    @Query("FROM Post WHERE user =:user AND isActive = 1 AND moderationStatus = 'NEW'")
+    List <Post> findPending (@Param("user") User user, Pageable pageable);
+
+    @Query("FROM Post WHERE user =:user AND isActive = 1 AND moderationStatus = 'DECLINED'")
+    List <Post> findDeclined (@Param("user") User user, Pageable pageable);
+
+    @Query("FROM Post WHERE user =:user AND isActive = 1 AND moderationStatus = 'ACCEPTED'")
+    List <Post> findPublished (@Param("user") User user, Pageable pageable);
 }
 

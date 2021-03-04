@@ -6,6 +6,7 @@ import main.model.User;
 import main.model.repositories.PostCommentsRepository;
 import main.model.repositories.PostRepository;
 import main.model.repositories.PostVoteRepository;
+import main.model.repositories.UserRepository;
 import main.service.dto.DTOPost;
 import main.service.dto.DTOUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,8 @@ public class PostsService {
     private PostCommentsRepository commentsRepository;
     @Autowired
     private PostRepository repository;
+    @Autowired
+    private UserRepository userRepository;
 
 
     public PostsResponse getPostsResponse(Pageable page, String mode) {
@@ -59,6 +62,15 @@ public class PostsService {
 
         long count = repository.countByTagName(tag);
         List <Post> posts = repository.getPostsByTag(tag, page);
+
+        return createResponse(posts, count);
+    }
+
+    public PostsResponse getPostsResponseForUser (Pageable page, String email, String status) {
+
+        User user = userRepository.findByEmail(email);
+        long count = repository.countForUser(user);
+        List <Post> posts = getPostListForUser(page, user, status);
 
         return createResponse(posts, count);
     }
@@ -101,6 +113,27 @@ public class PostsService {
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + mode);
+        }
+        return posts;
+    }
+
+    private List<Post> getPostListForUser (Pageable page, User user, String status){
+        List <Post> posts;
+        switch (status) {
+            case  ("inactive"):
+                posts = repository.findInactive(user, page);
+                break;
+            case  ("pending"):
+                posts = repository.findPending(user, page);
+                break;
+            case  ("declined"):
+                posts = repository.findDeclined(user, page);
+                break;
+            case  ("published"):
+                posts = repository.findPublished(user, page);
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + status);
         }
         return posts;
     }

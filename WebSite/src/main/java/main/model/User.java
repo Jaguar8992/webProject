@@ -16,7 +16,6 @@ public class User {
     @Column(name = "is_moderator", nullable = false)
     private int isModerator;
 
-
     @Column (name = "reg_time", nullable = false, columnDefinition = "timestamp default current_timestamp")
     @Temporal(TemporalType.TIMESTAMP)
     private Date regTime;
@@ -30,10 +29,8 @@ public class User {
     @Column (nullable = false)
     private String password;
 
-    @Column (nullable = true)
     private String code;
 
-    @Column (nullable = true)
     private String photo;
 
     @OneToMany(cascade = CascadeType.ALL)
@@ -130,5 +127,9 @@ public class User {
 
     public void setPostVotes(List<PostVote> postVotes) {
         this.postVotes = postVotes;
+    }
+
+    public Role getRole(){
+        return isModerator == 1 ? Role.MODERATOR : Role.USER;
     }
 }

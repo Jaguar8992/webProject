@@ -5,9 +5,9 @@ public class DTOComment {
     private int id;
     private long timestamp;
     private String text;
-    private DTOCommentUser user;
+    private DTOUser user;
 
-    public DTOComment(int id, long timestamp, String text, DTOCommentUser user) {
+    public DTOComment(int id, long timestamp, String text, DTOUser user) {
         this.id = id;
         this.timestamp = timestamp;
         this.text = text;
@@ -38,11 +38,11 @@ public class DTOComment {
         this.text = text;
     }
 
-    public DTOCommentUser getUser() {
+    public DTOUser getUser() {
         return user;
     }
 
-    public void setUser(DTOCommentUser user) {
+    public void setUser(DTOUser user) {
         this.user = user;
     }
 }

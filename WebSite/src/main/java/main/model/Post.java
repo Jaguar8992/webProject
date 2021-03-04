@@ -29,7 +29,6 @@ public class Post {
     private User user;
 
     @Column (nullable = false, columnDefinition = "timestamp default current_timestamp")
-    @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     private Date time = new Date();
 
