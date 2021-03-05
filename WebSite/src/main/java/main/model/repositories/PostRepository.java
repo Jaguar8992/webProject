@@ -71,9 +71,20 @@ public interface PostRepository  extends JpaRepository <Post, Integer> {
             " JOIN Tag tag ON tag.id = tp.tagId WHERE tag.name =:tag")
     List<Post> getPostsByTag (@Param("tag") String tag, Pageable pageable);
 
-    // GetMy
-    @Query("SELECT count(*) FROM Post WHERE user =:user")
-    int countForUser (@Param("user") User user);
+    // GetMy count
+    @Query("SELECT count(*) FROM Post WHERE user =:user AND isActive = 0")
+    int countInactiveForUser(@Param("user") User user);
+
+    @Query("SELECT count(*) FROM Post WHERE user =:user AND isActive = 1 AND moderationStatus = 'DECLINED'")
+    int countDeclinedForUser(@Param("user") User user);
+
+    @Query("SELECT count(*) FROM Post WHERE user =:user AND isActive = 1 AND moderationStatus = 'NEW'")
+    int countNewForUser(@Param("user") User user);
+
+    @Query("SELECT count(*) FROM Post WHERE user =:user AND isActive = 1 AND moderationStatus = 'ACCEPTED'")
+    int countAcceptedForUser(@Param("user") User user);
+
+    // GetMy list
 
     @Query("FROM Post WHERE user =:user AND isActive = 0")
     List <Post> findInactive (@Param("user") User user, Pageable pageable);
@@ -86,5 +97,27 @@ public interface PostRepository  extends JpaRepository <Post, Integer> {
 
     @Query("FROM Post WHERE user =:user AND isActive = 1 AND moderationStatus = 'ACCEPTED'")
     List <Post> findPublished (@Param("user") User user, Pageable pageable);
+
+    // Get count for moderation
+
+    @Query("SELECT count(*) FROM Post WHERE isActive = 1 AND moderationStatus = 'NEW'")
+    int countNewPostsForModeration();
+
+    @Query("SELECT count(*) FROM Post WHERE moderationId = :id AND isActive = 1 AND moderationStatus = 'DECLINED'")
+    int countDeclinedPostsForModeration(@Param("id") Integer id);
+
+    @Query("SELECT count(*) FROM Post WHERE moderationId = :id AND isActive = 1 AND moderationStatus = 'ACCEPTED'")
+    int countAcceptedPostsForModeration(@Param("id") Integer id);
+
+    // Get list for moderation
+
+    @Query("FROM Post WHERE isActive = 1 AND moderationStatus = 'NEW'")
+    List <Post> findNewPostsForModeration(Pageable pageable);
+
+    @Query("FROM Post WHERE moderationId = :id AND isActive = 1 AND moderationStatus = 'DECLINED'")
+    List <Post> findDeclinedPostsForModeration(@Param("id") Integer id, Pageable pageable);
+
+    @Query("FROM Post WHERE moderationId = :id AND isActive = 1 AND moderationStatus = 'ACCEPTED'")
+    List <Post> findAcceptedPostsForModeration(@Param("id") Integer id, Pageable pageable);
 }
 

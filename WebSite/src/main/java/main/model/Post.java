@@ -22,7 +22,7 @@ public class Post {
     @Column(name = "moderation_status", nullable = false)
     private String moderationStatus = "NEW";
 
-    @Column(name = "moderation_id", nullable = true)
+    @Column(name = "moderation_id")
     private Integer moderationId;
 
     @ManyToOne (cascade = CascadeType.ALL)

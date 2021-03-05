@@ -10,14 +10,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import java.security.Principal;
 import java.text.ParseException;
 
 @RestController
@@ -77,8 +73,17 @@ public class ApiPostController {
 
         Pageable page = PageRequest.of(offset / limit, limit);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        authentication.getAuthorities().forEach(System.out::println);
-        return postsService.getPostsResponseForUser(page, authentication.getName(), status);
+        String currentPrincipalName = authentication.getName();
+        return postsService.getPostsResponseForUser(page, currentPrincipalName, status);
     }
 
+    @GetMapping("/moderation")
+    @ResponseBody
+    private PostsResponse moderation(Integer offset, Integer limit, String status) {
+
+        Pageable page = PageRequest.of(offset / limit, limit);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        return postsService.getPostsResponseForModeration(page, currentPrincipalName, status);
+    }
 }

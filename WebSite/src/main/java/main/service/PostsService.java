@@ -69,8 +69,17 @@ public class PostsService {
     public PostsResponse getPostsResponseForUser (Pageable page, String email, String status) {
 
         User user = userRepository.findByEmail(email);
-        long count = repository.countForUser(user);
+        long count = countForUser(user, status);
         List <Post> posts = getPostListForUser(page, user, status);
+
+        return createResponse(posts, count);
+    }
+
+    public PostsResponse getPostsResponseForModeration (Pageable page, String email, String status) {
+
+        User user = userRepository.findByEmail(email);
+        long count = getCountForModeration(user.getId(), status);
+        List <Post> posts = getPostListForModeration(page, user.getId(), status);
 
         return createResponse(posts, count);
     }
@@ -117,6 +126,27 @@ public class PostsService {
         return posts;
     }
 
+    private int countForUser (User user, String status){
+        int count;
+        switch (status) {
+            case  ("inactive"):
+                count = repository.countInactiveForUser(user);
+                break;
+            case  ("pending"):
+                count = repository.countNewForUser(user);
+                break;
+            case  ("declined"):
+                count = repository.countDeclinedForUser(user);
+                break;
+            case  ("published"):
+                count = repository.countAcceptedForUser(user);
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + status);
+        }
+        return count;
+    }
+
     private List<Post> getPostListForUser (Pageable page, User user, String status){
         List <Post> posts;
         switch (status) {
@@ -131,6 +161,43 @@ public class PostsService {
                 break;
             case  ("published"):
                 posts = repository.findPublished(user, page);
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + status);
+        }
+        return posts;
+    }
+
+    private int getCountForModeration (Integer id, String status){
+        int count;
+        switch (status) {
+            case  ("new"):
+                count = repository.countNewPostsForModeration();
+                break;
+            case  ("accepted"):
+                count = repository.countAcceptedPostsForModeration(id);
+                break;
+            case  ("declined"):
+                count = repository.countDeclinedPostsForModeration(id);
+                break;
+            default:
+                throw new IllegalStateException("Unexpected value: " + status);
+        }
+        return count;
+    }
+
+
+    private List<Post> getPostListForModeration (Pageable page, Integer id, String status){
+        List <Post> posts;
+        switch (status) {
+            case  ("new"):
+                posts = repository.findNewPostsForModeration(page);
+                break;
+            case  ("accepted"):
+                posts = repository.findAcceptedPostsForModeration(id, page);
+                break;
+            case  ("declined"):
+                posts = repository.findDeclinedPostsForModeration(id, page);
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + status);
