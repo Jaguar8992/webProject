@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.util.TreeMap;
 
-public class RegisterResponse {
+public class PostMethodResponse {
 
     private boolean result;
     @JsonInclude(JsonInclude.Include.NON_NULL)

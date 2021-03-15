@@ -1,6 +1,6 @@
 package main.service;
 
-import main.api.response.RegisterResponse;
+import main.api.response.PostMethodResponse;
 import main.model.User;
 import main.model.repositories.CaptchaRepository;
 import main.model.repositories.UserRepository;
@@ -20,7 +20,7 @@ public class RegisterService {
     @Autowired
     CaptchaRepository captchaRepository;
 
-    public RegisterResponse getResponse (String email, String password, String name, String captcha, String captchaSecret) {
+    public PostMethodResponse getResponse (String email, String password, String name, String captcha, String captchaSecret) {
 
         TreeMap <String, String> errors = new TreeMap<>();
 
@@ -42,7 +42,7 @@ public class RegisterService {
             errors.put("captcha", "Код с картинки введён неверно");
         }
 
-        RegisterResponse response = new RegisterResponse();
+        PostMethodResponse response = new PostMethodResponse();
 
         if (errors.size() == 0){
             response.setResult(true);

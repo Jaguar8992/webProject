@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class PostsService {
+public class GetPostsService {
 
     @Autowired
     private PostVoteRepository voteRepository;

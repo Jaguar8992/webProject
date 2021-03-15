@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -34,13 +35,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/**").permitAll()
                 .antMatchers("/api/post/my").hasAuthority(Permission.USER.getPermission())
+                .antMatchers(HttpMethod.POST,"/api/post").hasAuthority(Permission.USER.getPermission())
+                .antMatchers(HttpMethod.PUT,"/api/post/{id}").hasAuthority(Permission.USER.getPermission())
                 .antMatchers("/api/post/moderation").hasAuthority(Permission.MODERATE.getPermission())
+                .antMatchers("/**").permitAll()
         .anyRequest().authenticated()
         .and()
         .formLogin().permitAll()
         .and()
+                .logout().logoutSuccessUrl("/")
+                .and()
         .httpBasic();
     }
 

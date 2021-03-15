@@ -1,10 +1,17 @@
 package main.controller;
 
 
+import main.api.request.PostRequest;
 import main.api.response.PostByIdResponse;
+import main.api.response.PostMethodResponse;
 import main.api.response.PostsResponse;
+import main.model.Post;
+import main.model.User;
+import main.model.repositories.PostRepository;
+import main.model.repositories.UserRepository;
 import main.service.PostByIdService;
-import main.service.PostsService;
+import main.service.GetPostsService;
+import main.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -20,42 +27,48 @@ import java.text.ParseException;
 @RequestMapping("/api/post")
 public class ApiPostController {
 
-    private final PostsService postsService;
+    private final GetPostsService getPostsService;
     private final PostByIdService postByIdService;
+    private final PostService postService;
+    private final UserRepository userRepository;
+    private final PostRepository postRepository;
 
 
     @Autowired
-    public ApiPostController(PostsService postsService, PostByIdService postByIdService) {
-        this.postsService = postsService;
+    public ApiPostController(GetPostsService postsService, PostByIdService postByIdService, PostService postService, UserRepository userRepository, PostRepository postRepository) {
+        this.getPostsService = postsService;
         this.postByIdService = postByIdService;
+        this.postService = postService;
+        this.userRepository = userRepository;
+        this.postRepository = postRepository;
     }
 
     @GetMapping("")
     @ResponseBody
-    private PostsResponse post( Integer offset, Integer limit, String mode){
+    private PostsResponse getPosts( Integer offset, Integer limit, String mode){
         Pageable page = PageRequest.of(offset / limit, limit);
-        return postsService.getPostsResponse(page, mode);
+        return getPostsService.getPostsResponse(page, mode);
     }
 
     @GetMapping("/search")
     @ResponseBody
     private PostsResponse search( Integer offset, Integer limit, String query){
         Pageable page = PageRequest.of(offset / limit, limit);
-        return postsService.getPostsResponseByQuery(page, query);
+        return getPostsService.getPostsResponseByQuery(page, query);
     }
 
     @GetMapping("/byDate")
     @ResponseBody
     private PostsResponse byDate (Integer offset, Integer limit, String date) throws ParseException {
         Pageable page = PageRequest.of(offset / limit, limit);
-        return postsService.getPostsResponseByDate(page, date);
+        return getPostsService.getPostsResponseByDate(page, date);
     }
 
     @GetMapping("/byTag")
     @ResponseBody
     private PostsResponse byTag (Integer offset, Integer limit, String tag)  {
         Pageable page = PageRequest.of(offset / limit, limit);
-        return postsService.getPostsResponseByTag(page, tag);
+        return getPostsService.getPostsResponseByTag(page, tag);
     }
 
     @GetMapping("/{id}")
@@ -69,12 +82,13 @@ public class ApiPostController {
 
     @GetMapping("/my")
     @ResponseBody
+
     private PostsResponse my(Integer offset, Integer limit, String status) {
 
         Pageable page = PageRequest.of(offset / limit, limit);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
-        return postsService.getPostsResponseForUser(page, currentPrincipalName, status);
+        return getPostsService.getPostsResponseForUser(page, currentPrincipalName, status);
     }
 
     @GetMapping("/moderation")
@@ -84,6 +98,29 @@ public class ApiPostController {
         Pageable page = PageRequest.of(offset / limit, limit);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
-        return postsService.getPostsResponseForModeration(page, currentPrincipalName, status);
+        return getPostsService.getPostsResponseForModeration(page, currentPrincipalName, status);
+    }
+
+    @PostMapping("")
+    private PostMethodResponse post (@RequestBody PostRequest postRequest){
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = userRepository.findByEmail(authentication.getName());
+
+        return postService.getResponse(postRequest.getTimestamp(),
+                postRequest.getActive() == 1, postRequest.getTitle(),
+                postRequest.getTags(), postRequest.getText(), user);
+    }
+
+    @PutMapping("/{id}")
+    private PostMethodResponse putPost(@RequestBody PostRequest postRequest, @PathVariable int id){
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = userRepository.findByEmail(authentication.getName());
+        Post post = postRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Post with id " + id + " not found"));
+
+        return postService.putPost(postRequest.getTimestamp(),
+                postRequest.getActive() == 1, postRequest.getTitle(),
+                postRequest.getTags(), postRequest.getText(), post, user);
     }
 }

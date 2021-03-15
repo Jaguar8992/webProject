@@ -2,7 +2,7 @@ package main.controller;
 
 import main.api.response.CaptchaResponse;
 import main.api.response.LoginResponse;
-import main.api.response.RegisterResponse;
+import main.api.response.PostMethodResponse;
 import main.model.User;
 import main.model.repositories.UserRepository;
 import main.service.CaptchaService;
@@ -57,7 +57,7 @@ public class ApiAuthController {
     }
 
     @PostMapping(value = "/register")
-    private RegisterResponse register (@RequestBody LoginForm form){
+    private PostMethodResponse register (@RequestBody LoginForm form){
         return registerService.getResponse(form.getEmail(), form.getPassword(), form.getName(), form.getCaptcha(), form.getCaptchaSecret());
     }
 

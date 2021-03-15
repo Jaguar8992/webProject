@@ -16,7 +16,7 @@ public class Tag {
     private String name;
 
     @ManyToMany (cascade = CascadeType.ALL)
-    @JoinTable (name = "tags2post",
+    @JoinTable (name = "tag2post",
             joinColumns = {@JoinColumn (name = "tag_id")},
             inverseJoinColumns = {@JoinColumn (name = "post_id")})
     private List<Post> post;
@@ -43,5 +43,9 @@ public class Tag {
 
     public void setPost(List<Post> post) {
         this.post = post;
+    }
+
+    public void putPost (Post newPost){
+        post.add(newPost);
     }
 }
