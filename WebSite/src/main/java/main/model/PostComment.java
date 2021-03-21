@@ -13,7 +13,7 @@ public class PostComment {
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column (name = "parent_id", nullable = true)
+    @Column (name = "parent_id")
     private Integer parentId;
 
     @ManyToOne (cascade = CascadeType.ALL)

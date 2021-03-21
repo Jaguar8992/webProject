@@ -16,33 +16,30 @@ public class LoginService {
     @Autowired
     private PostRepository postRepository;
 
-    public LoginResponse getLoginResponse (User user){
+    public LoginResponse getLoginResponse(User user) {
 
         LoginResponse response = new LoginResponse();
 
-        if (user == null) {
-            response.setResult(false);
+        DTOUserLoginResponse userResponse = new DTOUserLoginResponse();
+
+        userResponse.setId(user.getId());
+        userResponse.setEmail(user.getEmail());
+        userResponse.setName(user.getName());
+        userResponse.setPhoto(user.getPhoto());
+
+        if (user.getIsModerator() != 1) {
+            userResponse.setModeration(false);
+            userResponse.setModerationCount(0);
+            userResponse.setSettings(false);
         } else {
-            DTOUserLoginResponse userResponse = new DTOUserLoginResponse();
-
-            userResponse.setId(user.getId());
-            userResponse.setEmail(user.getEmail());
-            userResponse.setName(user.getName());
-            userResponse.setPhoto(user.getPhoto());
-
-            if (user.getIsModerator() != 1) {
-                userResponse.setModeration(false);
-                userResponse.setModerationCount(0);
-                userResponse.setSettings(false);
-            } else {
-                userResponse.setModeration(true);
-                userResponse.setSettings(true);
-                userResponse.setModerationCount(postRepository.countNewPostsForModeration());
-            }
-
-            response.setResult(true);
-            response.setUser(userResponse);
+            userResponse.setModeration(true);
+            userResponse.setSettings(true);
+            userResponse.setModerationCount(postRepository.countNewPostsForModeration());
         }
+
+        response.setResult(true);
+        response.setUser(userResponse);
+
         return response;
     }
 }

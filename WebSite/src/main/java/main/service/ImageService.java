@@ -1,11 +1,11 @@
 package main.service;
 
 import main.api.response.PostMethodResponse;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.util.TreeMap;
 import java.util.UUID;
@@ -13,10 +13,9 @@ import java.util.UUID;
 @Service
 public class ImageService {
 
-    public Object getResponse (MultipartFile image) throws IOException {
+    public Object getResponse (MultipartFile image, HttpServletRequest request) throws IOException {
 
-        final long maxFileSize = 5242880;
-        String code = UUID.randomUUID().toString().replace("-", "");
+        final long maxFileSize = 1048576;
         PostMethodResponse response;
         TreeMap<String, String> errors = new TreeMap<>();
 
@@ -26,44 +25,30 @@ public class ImageService {
         if (!format.equals("jpg") && !format.equals("png")) {
             errors.put("image", "Неверный формат файла");
         }
-
-        if (image.getSize() > maxFileSize) {
+        if (image.getSize() >= maxFileSize) {
             errors.put("image", "Размер файла превышает допустимый размер");
         }
 
+
         if (errors.size() == 0) {
 
-            File upload = new File("upload/");
-            File firstPackage = new File(upload.getPath()  + "/" + code.substring(0, 2) + "/");
-            File secondPackage = new File(firstPackage.getPath() + "/"
-                    + code.substring(3, 5) + "/");
-            File thirdPackage = new File(secondPackage.getPath() + "/"
-                    + code.substring(6, 8) + "/");
-            String file = thirdPackage + "/" + code.substring(9) + "." + format;
+            String code = UUID.randomUUID().toString().replace("-", "");
+            String path = "upload" + code.substring(0, 2) + "/"
+                    + code.substring(3, 5) + "/" + code.substring(6, 8) + "/";
+            String file = code.substring(9) + "." + format;
+            String realPath = request.getServletContext().getRealPath(path);
 
-            if (!upload.exists()) {
-                upload.mkdir();
+            if (!new File(realPath).exists()){
+                new File(realPath).mkdirs();
             }
 
-            if (!firstPackage.exists()) {
-                firstPackage.mkdir();
-            }
-
-            if (!secondPackage.exists()) {
-                secondPackage.mkdir();
-            }
-
-            if (!thirdPackage.exists()) {
-                thirdPackage.mkdir();
-            }
-
-            OutputStream os = new FileOutputStream(file);
+            OutputStream os = new FileOutputStream(realPath + "/" + file);
 
             os.write(image.getBytes());
             os.flush();
             os.close();
 
-            return file;
+            return path + file;
 
         } else {
             response = new PostMethodResponse();

@@ -58,7 +58,7 @@ public class RegisterService {
         User user = new User();
         user.setEmail(email);
         user.setName(name);
-        user.setPassword(new BCryptPasswordEncoder().encode(password));
+        user.setPassword(new BCryptPasswordEncoder(12).encode(password));
         user.setRegTime(new Date());
         userRepository.save(user);
     }

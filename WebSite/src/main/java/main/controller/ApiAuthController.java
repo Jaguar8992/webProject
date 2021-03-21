@@ -1,13 +1,14 @@
 package main.controller;
 
+import main.api.request.PasswordRequest;
+import main.api.request.RestoreRequest;
 import main.api.response.CaptchaResponse;
 import main.api.response.LoginResponse;
 import main.api.response.PostMethodResponse;
+import main.api.response.ResultResponse;
 import main.model.User;
 import main.model.repositories.UserRepository;
-import main.service.CaptchaService;
-import main.service.LoginService;
-import main.service.RegisterService;
+import main.service.*;
 import main.api.request.LoginForm;
 import main.api.request.LoginRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,14 +34,18 @@ public class ApiAuthController {
     private final AuthenticationManager authenticationManager;
     private final LoginService loginService;
     private final UserRepository userRepository;
+    private final RestoreService restoreService;
+    private final PasswordRestoreService passwordRestoreService;
 
     @Autowired
-    public ApiAuthController(CaptchaService captchaService, RegisterService registerService, AuthenticationManager authenticationManager, LoginResponse loginResponse, LoginService loginService, UserRepository userRepository) {
+    public ApiAuthController(CaptchaService captchaService, RegisterService registerService, AuthenticationManager authenticationManager, LoginResponse loginResponse, LoginService loginService, UserRepository userRepository, RestoreService restoreService, PasswordRestoreService passwordRestoreService) {
         this.captchaService = captchaService;
         this.registerService = registerService;
         this.authenticationManager = authenticationManager;
         this.loginService = loginService;
         this.userRepository = userRepository;
+        this.restoreService = restoreService;
+        this.passwordRestoreService = passwordRestoreService;
     }
 
     @GetMapping("/check")
@@ -62,15 +68,20 @@ public class ApiAuthController {
     }
 
     @PostMapping("/login")
-    public LoginResponse login (@RequestBody LoginRequest loginRequest){
+    public Object login (@RequestBody LoginRequest loginRequest){
         User user = userRepository.findByEmail(loginRequest.getEmail());
-        if (user != null) {
+        if (user == null){
+            return new ResultResponse();
+        }
+        else if (new BCryptPasswordEncoder(12).
+                        matches(loginRequest.getPassword(), user.getPassword())) {
             Authentication auth = authenticationManager.authenticate(
                             new UsernamePasswordAuthenticationToken(loginRequest.getEmail(),
                                     loginRequest.getPassword()));
             SecurityContextHolder.getContext().setAuthentication(auth);
+            return loginService.getLoginResponse(user);
         }
-        return loginService.getLoginResponse(user);
+        else return new ResultResponse();
     }
 
     @GetMapping("/logout")
@@ -80,6 +91,19 @@ public class ApiAuthController {
         LoginResponse loginResponse = new LoginResponse();
         loginResponse.setResult(true);
         return loginResponse;
+    }
+
+    @PostMapping("/restore")
+    private ResultResponse restore (@RequestBody RestoreRequest request){
+        return restoreService.getResponse(request.getEmail());
+    }
+
+    @PostMapping("/password")
+    private PostMethodResponse password (@RequestBody PasswordRequest passwordRequest){
+        return passwordRestoreService.getResponse(passwordRequest.getCode(),
+                passwordRequest.getPassword(), passwordRequest.getCaptcha(),
+                passwordRequest.getCaptchaSecret());
+
     }
 
 }

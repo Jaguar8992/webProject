@@ -18,6 +18,8 @@ public class PostService {
     private TagRepository tagRepository;
     @Autowired
     private PostRepository postRepository;
+    private final int minTitleSize = 3;
+    private final int minTextSize = 50;
 
     public PostMethodResponse getResponse (long timestamp, boolean active,
                                            String title, List <String> tags, String text, User user){
@@ -95,13 +97,13 @@ public class PostService {
         if (title.length() == 0){
             errors.put("title", "Заголовок не установлен");
         }
-        if (title.length() > 0 && title.length() < 3){
+        if (title.length() > 0 && title.length() < minTitleSize){
             errors.put("title", "Заголовок слишком короткий");
         }
         if (text.length() == 0){
             errors.put("text", "Текст не заполнен");
         }
-        if (text.length() > 0 && text.length() < 50){
+        if (text.length() > 0 && text.length() < minTextSize){
             errors.put("text", "Текст не заполнен");
         }
 

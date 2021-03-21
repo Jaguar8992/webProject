@@ -3,3 +3,9 @@ spring.datasource.username : root
 spring.datasource.password : testtest
 spring.jpa.hibernate.ddl-auto: none
 #spring.liquibase.enabled: false
+spring:
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 100MB
+      max-request-size: 100MB

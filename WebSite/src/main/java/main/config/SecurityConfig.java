@@ -1,7 +1,6 @@
 package main.config;
 
 import main.model.Permission;
-import main.model.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -13,11 +12,11 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+
+import java.util.Properties;
 
 @Configuration
 @EnableWebSecurity
@@ -35,10 +34,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api/post/my").hasAuthority(Permission.USER.getPermission())
+                .antMatchers("/api/post/my", "/api/comment", "/api/image", "/api/profile/my").hasAuthority(Permission.USER.getPermission())
                 .antMatchers(HttpMethod.POST,"/api/post").hasAuthority(Permission.USER.getPermission())
                 .antMatchers(HttpMethod.PUT,"/api/post/{id}").hasAuthority(Permission.USER.getPermission())
-                .antMatchers("/api/post/moderation").hasAuthority(Permission.MODERATE.getPermission())
+                .antMatchers("/api/post/moderation", "/api/moderation").hasAuthority(Permission.MODERATE.getPermission())
                 .antMatchers("/**").permitAll()
         .anyRequest().authenticated()
         .and()
@@ -67,4 +66,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
+
 }

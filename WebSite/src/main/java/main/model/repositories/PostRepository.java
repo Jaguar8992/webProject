@@ -68,7 +68,7 @@ public interface PostRepository  extends JpaRepository <Post, Integer> {
     List<Post> getPostsByDate (@Param("date") Date date, Pageable pageable);
 
     @Query ("FROM Post post JOIN TagToPost tp ON tp.postId = post.id" +
-            " JOIN Tag tag ON tag.id = tp.tagId WHERE tag.name =:tag")
+            " JOIN Tag tag ON tag.id = tp.tagId WHERE tag.name =:tag GROUP BY post.id")
     List<Post> getPostsByTag (@Param("tag") String tag, Pageable pageable);
 
     // GetMy count
@@ -119,5 +119,6 @@ public interface PostRepository  extends JpaRepository <Post, Integer> {
 
     @Query("FROM Post WHERE moderationId = :id AND isActive = 1 AND moderationStatus = 'ACCEPTED'")
     List <Post> findAcceptedPostsForModeration(@Param("id") Integer id, Pageable pageable);
+
 }
 
