@@ -34,10 +34,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api/post/my", "/api/comment", "/api/image", "/api/profile/my").hasAuthority(Permission.USER.getPermission())
+                .antMatchers("/api/post/my", "/api/comment",
+                        "/api/image", "/api/profile/my", "/api/post/like",
+                        "api/post/dislike").hasAuthority(Permission.USER.getPermission())
                 .antMatchers(HttpMethod.POST,"/api/post").hasAuthority(Permission.USER.getPermission())
                 .antMatchers(HttpMethod.PUT,"/api/post/{id}").hasAuthority(Permission.USER.getPermission())
-                .antMatchers("/api/post/moderation", "/api/moderation").hasAuthority(Permission.MODERATE.getPermission())
+                .antMatchers("/api/post/moderation", "/api/moderation",
+                        "/api/settings").hasAuthority(Permission.MODERATE.getPermission())
                 .antMatchers("/**").permitAll()
         .anyRequest().authenticated()
         .and()

@@ -30,8 +30,11 @@ public class ApiGeneralController {
     private final ModerationDecisionService moderationDecisionService;
     private final CommentService commentService;
     private final MyProfileService myProfileService;
+    private final MyStatisticsService myStatisticsService;
+    private final AllStatisticsService allStatisticsService;
+    private final PutSettingService putSettingService;
 
-    public ApiGeneralController(InitResponse initResponse, SettingService settingService, TagsService tagsService, CalendarService calendarService, ImageService imageService, UserRepository userRepository, ModerationDecisionService moderationDecisionService, CommentService commentService, MyProfileService myProfileService) {
+    public ApiGeneralController(InitResponse initResponse, SettingService settingService, TagsService tagsService, CalendarService calendarService, ImageService imageService, UserRepository userRepository, ModerationDecisionService moderationDecisionService, CommentService commentService, MyProfileService myProfileService, MyStatisticsService myStatisticsService, AllStatisticsService allStatisticsService, PutSettingService putSettingService) {
         this.initResponse = initResponse;
         this.settingService = settingService;
         this.tagsService = tagsService;
@@ -41,6 +44,9 @@ public class ApiGeneralController {
         this.moderationDecisionService = moderationDecisionService;
         this.commentService = commentService;
         this.myProfileService = myProfileService;
+        this.myStatisticsService = myStatisticsService;
+        this.allStatisticsService = allStatisticsService;
+        this.putSettingService = putSettingService;
     }
 
     @GetMapping("/tag")
@@ -105,5 +111,27 @@ public class ApiGeneralController {
                 response.getPhoto(), user, request);
     }
 
+    @GetMapping("/statistics/my")
+    private StatisticsResponse myStatistics (){
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = userRepository.findByEmail(authentication.getName());
+
+        return myStatisticsService.getResponse(user);
+    }
+
+    @GetMapping("/statistics/all")
+    private Object allStatistics (){
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = userRepository.findByEmail(authentication.getName());
+
+        return allStatisticsService.getResponse(user.getIsModerator() == 1);
+    }
+
+    @PutMapping("/settings")
+    private void settings (@RequestBody SettingsResponse response) {
+        putSettingService.setSettings(response.isMultiUserMode(),
+                response.isPostPreModeration(), response.isStatisticIsPublic());
+    }
 }

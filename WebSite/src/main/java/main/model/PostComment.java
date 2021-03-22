@@ -13,13 +13,14 @@ public class PostComment {
     @GeneratedValue (strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column (name = "parent_id")
     private Integer parentId;
 
-    @ManyToOne (cascade = CascadeType.ALL)
+    @ManyToOne
+    @JoinColumn(name="post_id", nullable=false)
     private Post post;
 
-    @ManyToOne (cascade = CascadeType.ALL)
+    @ManyToOne
+    @JoinColumn(name="user_id", nullable=false)
     private User user;
 
     @Column (nullable = false, columnDefinition = "timestamp default current_timestamp")

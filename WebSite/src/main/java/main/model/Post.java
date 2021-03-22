@@ -42,9 +42,15 @@ public class Post {
     private int viewCount;
 
     @OneToMany (cascade = CascadeType.ALL)
+    @JoinColumn(
+            name = "post_id",
+            referencedColumnName = "id")
     private List <PostComment> postComments;
 
     @OneToMany (cascade = CascadeType.ALL)
+    @JoinColumn(
+            name = "post_id",
+            referencedColumnName = "id")
     private List <PostVote> postVotes;
 
     @ManyToMany (cascade = CascadeType.ALL)
@@ -148,4 +154,5 @@ public class Post {
     public void setTime(Date time) {
         this.time = time;
     }
+
 }

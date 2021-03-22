@@ -63,7 +63,7 @@ public class ApiAuthController {
     }
 
     @PostMapping(value = "/register")
-    private PostMethodResponse register (@RequestBody LoginForm form){
+    private Object register (@RequestBody LoginForm form){
         return registerService.getResponse(form.getEmail(), form.getPassword(), form.getName(), form.getCaptcha(), form.getCaptchaSecret());
     }
 

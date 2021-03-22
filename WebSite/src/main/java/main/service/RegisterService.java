@@ -3,8 +3,10 @@ package main.service;
 import main.api.response.PostMethodResponse;
 import main.model.User;
 import main.model.repositories.CaptchaRepository;
+import main.model.repositories.GlobalSettingsRepository;
 import main.model.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -16,11 +18,18 @@ import java.util.regex.Pattern;
 public class RegisterService {
 
     @Autowired
-    UserRepository userRepository;
+    private UserRepository userRepository;
     @Autowired
-    CaptchaRepository captchaRepository;
+    private CaptchaRepository captchaRepository;
+    @Autowired
+    private GlobalSettingsRepository globalSettingsRepository;
 
-    public PostMethodResponse getResponse (String email, String password, String name, String captcha, String captchaSecret) {
+
+    public Object getResponse (String email, String password, String name, String captcha, String captchaSecret) {
+
+        if (globalSettingsRepository.getMultiUserModeValue().equals("YES")){
+            return ResponseEntity.status(404);
+        }
 
         TreeMap <String, String> errors = new TreeMap<>();
 

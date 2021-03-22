@@ -2,9 +2,11 @@ package main.controller;
 
 
 import main.api.request.PostRequest;
+import main.api.request.VoteRequest;
 import main.api.response.PostByIdResponse;
 import main.api.response.PostMethodResponse;
 import main.api.response.PostsResponse;
+import main.api.response.ResultResponse;
 import main.model.Post;
 import main.model.User;
 import main.model.repositories.PostRepository;
@@ -12,6 +14,7 @@ import main.model.repositories.UserRepository;
 import main.service.PostByIdService;
 import main.service.GetPostsService;
 import main.service.PostService;
+import main.service.VoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -32,15 +35,17 @@ public class ApiPostController {
     private final PostService postService;
     private final UserRepository userRepository;
     private final PostRepository postRepository;
+    private final VoteService voteService;
 
 
     @Autowired
-    public ApiPostController(GetPostsService postsService, PostByIdService postByIdService, PostService postService, UserRepository userRepository, PostRepository postRepository) {
+    public ApiPostController(GetPostsService postsService, PostByIdService postByIdService, PostService postService, UserRepository userRepository, PostRepository postRepository, VoteService voteService) {
         this.getPostsService = postsService;
         this.postByIdService = postByIdService;
         this.postService = postService;
         this.userRepository = userRepository;
         this.postRepository = postRepository;
+        this.voteService = voteService;
     }
 
     @GetMapping("")
@@ -73,7 +78,13 @@ public class ApiPostController {
 
     @GetMapping("/{id}")
     private ResponseEntity getById (@PathVariable int id){
-        PostByIdResponse response = postByIdService.getPostByIdResponse(id);
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User currentUser = authentication != null ?
+                userRepository.findByEmail(authentication.getName()) : null;
+
+        PostByIdResponse response = postByIdService.getPostByIdResponse(id, currentUser);
+
         if (response == null){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
@@ -122,5 +133,23 @@ public class ApiPostController {
         return postService.putPost(postRequest.getTimestamp(),
                 postRequest.getActive() == 1, postRequest.getTitle(),
                 postRequest.getTags(), postRequest.getText(), post, user);
+    }
+
+    @PostMapping ("/like")
+    private ResultResponse like (@RequestBody VoteRequest request) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = userRepository.findByEmail(authentication.getName());
+
+        return voteService.getResponse(true, request.getPostId(), user);
+    }
+
+    @PostMapping ("/dislike")
+    private ResultResponse dislike (@RequestBody VoteRequest request) {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = userRepository.findByEmail(authentication.getName());
+
+        return voteService.getResponse(false, request.getPostId(), user);
     }
 }

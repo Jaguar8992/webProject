@@ -27,12 +27,21 @@ public class PostByIdService {
     @Autowired
     private PostVoteRepository voteRepository;
 
-    public PostByIdResponse getPostByIdResponse (int id){
+    public PostByIdResponse getPostByIdResponse (int id, User currentUser){
 
         PostByIdResponse response = new PostByIdResponse();
 
         Post post = postRepository.findById(id).get();
         User user = userRepository.getByPost(post);
+
+        // Add view
+        if (currentUser != null) {
+            if (user != currentUser && currentUser.getIsModerator() != 1) {
+                post.setViewCount(post.getViewCount() + 1);
+                postRepository.save(post);
+            }
+        }
+
         List<DTOComment> comments = getComments(post);
         List <String> tags = tagRepository.getNameByPost(post);
 

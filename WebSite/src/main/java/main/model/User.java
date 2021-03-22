@@ -34,12 +34,21 @@ public class User {
     private String photo;
 
     @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(
+            name = "user_id",
+            referencedColumnName = "id")
     private List<Post> post;
 
     @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(
+            name = "user_id",
+            referencedColumnName = "id")
     private List<PostComment> postComments;
 
     @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(
+            name = "user_id",
+            referencedColumnName = "id")
     private List <PostVote> postVotes;
 
     public void setPostComments(List<PostComment> postComments) {

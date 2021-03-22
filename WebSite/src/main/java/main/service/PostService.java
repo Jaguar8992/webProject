@@ -4,6 +4,7 @@ import main.api.response.PostMethodResponse;
 import main.model.Post;
 import main.model.Tag;
 import main.model.User;
+import main.model.repositories.GlobalSettingsRepository;
 import main.model.repositories.PostRepository;
 import main.model.repositories.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,8 @@ public class PostService {
     private TagRepository tagRepository;
     @Autowired
     private PostRepository postRepository;
+    @Autowired
+    private GlobalSettingsRepository globalSettingsRepository;
     private final int minTitleSize = 3;
     private final int minTextSize = 50;
 
@@ -61,6 +64,7 @@ public class PostService {
 
         PostMethodResponse response = new PostMethodResponse();
         TreeMap <String, String> errors = checkErrors(title, text);
+        boolean preModerationSetting = globalSettingsRepository.getPostPremoderationValue().equals("YES");
 
         Date now = new Date();
         Date time = new Date(timestamp * 1000);
@@ -76,8 +80,10 @@ public class PostService {
             post.setText(text);
             post.setTags(getTags(tags, post));
 
-            if (user.getIsModerator() == 0){
+            if (user.getIsModerator() == 0 && !preModerationSetting){
                 post.setModerationStatus("NEW");
+            } else if (preModerationSetting){
+                post.setModerationStatus("ACCEPTED");
             }
             postRepository.save(post);
             response.setResult(true);
