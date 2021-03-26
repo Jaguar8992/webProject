@@ -142,7 +142,4 @@ public class User {
         return isModerator == 1 ? Role.MODERATOR : Role.USER;
     }
 
-    public void deletePhoto(){
-        this.photo = null;
-    }
 }

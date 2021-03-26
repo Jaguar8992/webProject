@@ -2,7 +2,7 @@ package main.controller;
 
 import main.api.request.CommentRequest;
 import main.api.request.ModerationRequest;
-import main.api.request.ProfileResponse;
+import main.api.request.MyProfileRequest;
 import main.api.response.*;
 import main.model.User;
 import main.model.repositories.UserRepository;
@@ -77,13 +77,13 @@ public class ApiGeneralController {
 
     @PostMapping("/image")
     @ResponseBody
-    private Object image (MultipartFile image, HttpServletRequest request) throws IOException {
+    private Object image(MultipartFile image, HttpServletRequest request) throws IOException {
 
         return imageService.getResponse(image, request);
     }
 
     @PostMapping("/moderation")
-    private ResultResponse moderation (@RequestBody ModerationRequest request){
+    private ResultResponse moderation(@RequestBody ModerationRequest request) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User moderator = userRepository.findByEmail(authentication.getName());
 
@@ -92,7 +92,7 @@ public class ApiGeneralController {
     }
 
     @PostMapping("/comment")
-    private Object comment (@RequestBody CommentRequest request){
+    private Object comment(@RequestBody CommentRequest request) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = userRepository.findByEmail(authentication.getName());
@@ -100,19 +100,38 @@ public class ApiGeneralController {
         return commentService.getResponse(request.getParentId(), request.getPostId(), request.getText(), user);
     }
 
-    @RequestMapping(value = "/profile/my", method = RequestMethod.POST)
-    private PostMethodResponse myProfile (@ModelAttribute ProfileResponse response, HttpServletRequest request) throws IOException {
+    @PostMapping(value = "/profile/my")
+    private PostMethodResponse myProfileData (@RequestBody MyProfileRequest requestProfile,
+                                              HttpServletRequest request) throws IOException {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = userRepository.findByEmail(authentication.getName());
 
-        return myProfileService.getResponse(response.getEmail(), response.getName(),
-                response.getPassword(), response.getRemovePhoto(),
-                response.getPhoto(), user, request);
+        return myProfileService.getResponse(requestProfile.getEmail(), requestProfile.getName(),
+                requestProfile.getPassword(), requestProfile.getRemovePhoto(),
+                null, user, request);
+
+    }
+
+    @PostMapping(value = "/profile/my", consumes = "multipart/form-data")
+    private PostMethodResponse myProfilePhoto (@RequestParam (value = "email") String email,
+                                               @RequestParam (value = "removePhoto") int removePhoto,
+                                               @RequestParam (value = "photo") MultipartFile photo,
+                                               @RequestParam (value = "name") String name,
+                                               @RequestParam (value = "password", required = false) String password,
+                                               HttpServletRequest request) throws IOException {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = userRepository.findByEmail(authentication.getName());
+
+        return myProfileService.getResponse(email, name,
+                password, removePhoto,
+                photo, user, request);
+
     }
 
     @GetMapping("/statistics/my")
-    private StatisticsResponse myStatistics (){
+    private StatisticsResponse myStatistics() {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = userRepository.findByEmail(authentication.getName());
@@ -121,7 +140,7 @@ public class ApiGeneralController {
     }
 
     @GetMapping("/statistics/all")
-    private Object allStatistics (){
+    private Object allStatistics() {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = userRepository.findByEmail(authentication.getName());
@@ -130,7 +149,7 @@ public class ApiGeneralController {
     }
 
     @PutMapping("/settings")
-    private void settings (@RequestBody SettingsResponse response) {
+    private void settings(@RequestBody SettingsResponse response) {
         putSettingService.setSettings(response.isMultiUserMode(),
                 response.isPostPreModeration(), response.isStatisticIsPublic());
     }

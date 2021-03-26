@@ -12,6 +12,7 @@ import main.service.*;
 import main.api.request.LoginForm;
 import main.api.request.LoginRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -21,8 +22,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.web.bind.annotation.*;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.security.Principal;
 
 @RestController
@@ -94,8 +98,10 @@ public class ApiAuthController {
     }
 
     @PostMapping("/restore")
-    private ResultResponse restore (@RequestBody RestoreRequest request){
-        return restoreService.getResponse(request.getEmail());
+    private ResultResponse restore (@RequestBody RestoreRequest request, HttpServletRequest servletRequest) throws MessagingException, UnknownHostException {
+
+        String address = servletRequest.getHeader("Origin");
+        return restoreService.getResponse(request.getEmail(), address);
     }
 
     @PostMapping("/password")

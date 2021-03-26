@@ -69,9 +69,7 @@ public class MyProfileService {
 
             if (removePhoto != null) {
                 if (removePhoto == 1) {
-                    user.deletePhoto();
-                    File file = new File(request.getServletContext().getRealPath(user.getPhoto()));
-                    file.delete();
+                    user.setPhoto(null);
                 }
                     else if (removePhoto == 0 && photo != null) {
                         String linkPhoto = downloadImage(photo, request);

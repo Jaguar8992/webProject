@@ -1,22 +1,13 @@
 package main.api.request;
 
-import org.springframework.web.multipart.MultipartFile;
+import javax.persistence.criteria.CriteriaBuilder;
 
-public class ProfileResponse {
+public class MyProfileRequest {
 
-    private MultipartFile photo;
     private String name;
     private String email;
     private String password;
     private Integer removePhoto;
-
-    public MultipartFile getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(MultipartFile photo) {
-        this.photo = photo;
-    }
 
     public String getName() {
         return name;
