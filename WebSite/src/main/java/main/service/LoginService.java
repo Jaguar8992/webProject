@@ -6,6 +6,7 @@ import main.model.repositories.PostRepository;
 import main.model.repositories.UserRepository;
 import main.service.dto.DTOUserLoginResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,7 +17,7 @@ public class LoginService {
     @Autowired
     private PostRepository postRepository;
 
-    public LoginResponse getLoginResponse(User user) {
+    public ResponseEntity<LoginResponse> getLoginResponse(User user) {
 
         LoginResponse response = new LoginResponse();
 
@@ -40,6 +41,6 @@ public class LoginService {
         response.setResult(true);
         response.setUser(userResponse);
 
-        return response;
+        return ResponseEntity.ok().body(response);
     }
 }

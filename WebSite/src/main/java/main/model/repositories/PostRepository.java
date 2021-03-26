@@ -45,12 +45,12 @@ public interface PostRepository  extends JpaRepository <Post, Integer> {
             "and time < CURRENT_TIMESTAMP() ORDER BY time DESC")
     List<Post> getRecent (Pageable pageable);
 
-    @Query("FROM Post post LEFT JOIN PostComment pc ON pc.post = post.id" +
+    @Query("SELECT post FROM Post post LEFT JOIN PostComment pc ON pc.post = post.id" +
             " WHERE post.moderationStatus=\'ACCEPTED\' and post.isActive=1 " +
             "and post.time < CURRENT_TIMESTAMP() GROUP BY post.id ORDER BY count(pc.id) DESC")
     List<Post> getPopular(Pageable pageable);
 
-    @Query("FROM Post post LEFT JOIN PostVote pv ON pv.post = post.id " +
+    @Query("SELECT post FROM Post post LEFT JOIN PostVote pv ON pv.post = post.id " +
             "WHERE post.moderationStatus=\'ACCEPTED\' and post.isActive=1 " +
             "and post.time < CURRENT_TIMESTAMP() GROUP BY post.id " +
             "ORDER BY sum(CASE WHEN pv.value=1 THEN 1 ELSE 0 END) DESC")
@@ -67,7 +67,7 @@ public interface PostRepository  extends JpaRepository <Post, Integer> {
             "and time < CURRENT_TIMESTAMP() and DATE(time) = :date")
     List<Post> getPostsByDate (@Param("date") Date date, Pageable pageable);
 
-    @Query ("FROM Post post JOIN TagToPost tp ON tp.postId = post.id" +
+    @Query ("SELECT post FROM Post post JOIN TagToPost tp ON tp.postId = post.id" +
             " JOIN Tag tag ON tag.id = tp.tagId WHERE tag.name =:tag GROUP BY post.id")
     List<Post> getPostsByTag (@Param("tag") String tag, Pageable pageable);
 

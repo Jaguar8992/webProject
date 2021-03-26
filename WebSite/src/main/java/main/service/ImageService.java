@@ -13,7 +13,7 @@ import java.util.UUID;
 @Service
 public class ImageService {
 
-    public Object getResponse (MultipartFile image, HttpServletRequest request) throws IOException {
+    public ResponseEntity getResponse (MultipartFile image, HttpServletRequest request) throws IOException {
 
         final long maxFileSize = 1048576;
         PostMethodResponse response;
@@ -48,7 +48,7 @@ public class ImageService {
             os.flush();
             os.close();
 
-            return path + file;
+            return ResponseEntity.ok().body(path + file);
 
         } else {
             response = new PostMethodResponse();

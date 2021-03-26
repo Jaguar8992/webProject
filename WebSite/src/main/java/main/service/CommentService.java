@@ -22,7 +22,7 @@ public class CommentService {
     private PostCommentsRepository postCommentsRepository;
     private final int minTextSize = 2;
 
-    public Object getResponse (Integer parentId, int postId, String text, User user) {
+    public ResponseEntity getResponse (Integer parentId, int postId, String text, User user) {
 
         TreeMap<String, String> errors = new TreeMap<>();
         PostMethodResponse response;
@@ -54,7 +54,7 @@ public class CommentService {
 
             postCommentsRepository.save(comment);
 
-            return new CommentResponse(comment.getId());
+            return ResponseEntity.ok().body(new CommentResponse(comment.getId()));
 
         } else {
             response = new PostMethodResponse();

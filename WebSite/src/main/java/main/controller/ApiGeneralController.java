@@ -8,6 +8,7 @@ import main.model.User;
 import main.model.repositories.UserRepository;
 import main.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
@@ -77,7 +78,7 @@ public class ApiGeneralController {
 
     @PostMapping("/image")
     @ResponseBody
-    private Object image(MultipartFile image, HttpServletRequest request) throws IOException {
+    private ResponseEntity image(MultipartFile image, HttpServletRequest request) throws IOException {
 
         return imageService.getResponse(image, request);
     }
@@ -92,7 +93,7 @@ public class ApiGeneralController {
     }
 
     @PostMapping("/comment")
-    private Object comment(@RequestBody CommentRequest request) {
+    private ResponseEntity comment(@RequestBody CommentRequest request) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = userRepository.findByEmail(authentication.getName());
@@ -140,7 +141,7 @@ public class ApiGeneralController {
     }
 
     @GetMapping("/statistics/all")
-    private Object allStatistics() {
+    private ResponseEntity allStatistics() {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = userRepository.findByEmail(authentication.getName());

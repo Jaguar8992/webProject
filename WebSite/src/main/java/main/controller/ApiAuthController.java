@@ -13,6 +13,7 @@ import main.api.request.LoginForm;
 import main.api.request.LoginRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -53,12 +54,12 @@ public class ApiAuthController {
     }
 
     @GetMapping("/check")
-    private LoginResponse check (@AuthenticationPrincipal Principal principal) {
+    private ResponseEntity check (@AuthenticationPrincipal Principal principal) {
         if (principal != null) {
             User user = userRepository.findByEmail(principal.getName());
             return loginService.getLoginResponse(user);
         }
-         return new LoginResponse();
+         return ResponseEntity.ok().body(new LoginResponse());
     }
 
     @GetMapping("/captcha")
@@ -67,15 +68,15 @@ public class ApiAuthController {
     }
 
     @PostMapping(value = "/register")
-    private Object register (@RequestBody LoginForm form){
+    private ResponseEntity register (@RequestBody LoginForm form){
         return registerService.getResponse(form.getEmail(), form.getPassword(), form.getName(), form.getCaptcha(), form.getCaptchaSecret());
     }
 
     @PostMapping("/login")
-    public Object login (@RequestBody LoginRequest loginRequest){
+    public ResponseEntity login (@RequestBody LoginRequest loginRequest){
         User user = userRepository.findByEmail(loginRequest.getEmail());
         if (user == null){
-            return new ResultResponse();
+            return ResponseEntity.ok().body(new ResultResponse());
         }
         else if (new BCryptPasswordEncoder(12).
                         matches(loginRequest.getPassword(), user.getPassword())) {
@@ -85,7 +86,7 @@ public class ApiAuthController {
             SecurityContextHolder.getContext().setAuthentication(auth);
             return loginService.getLoginResponse(user);
         }
-        else return new ResultResponse();
+        else return ResponseEntity.ok().body(new ResultResponse());
     }
 
     @GetMapping("/logout")

@@ -18,13 +18,13 @@ public class AllStatisticsService {
     @Autowired
     private PostRepository postRepository;
 
-    public Object getResponse (boolean isModerator){
+    public ResponseEntity getResponse (boolean isModerator){
 
         boolean statisticsIsPublic = globalSettingsRepository
                 .getStatisticsIsPublicValue().equals("YES");
 
         if (!statisticsIsPublic && !isModerator) {
-            return ResponseEntity.status(401);
+            return ResponseEntity.status(401).body(null);
         }
         else {
             StatisticsResponse response = new StatisticsResponse();
@@ -48,7 +48,7 @@ public class AllStatisticsService {
             response.setViewsCount(viewsCount);
             response.setFirstPublication(firstPublication);
 
-            return response;
+            return ResponseEntity.ok().body(response);
         }
     }
 }

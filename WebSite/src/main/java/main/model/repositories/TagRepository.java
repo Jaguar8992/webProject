@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface TagRepository extends JpaRepository<Tag, Integer> {
 
-    @Query("FROM Tag tag JOIN TagToPost tp ON tp.tagId = tag.id JOIN Post post ON post.id = tp.postId" +
+    @Query("SELECT tag FROM Tag tag JOIN TagToPost tp ON tp.tagId = tag.id JOIN Post post ON post.id = tp.postId" +
             " WHERE tag.name LIKE CONCAT(:query,'%') GROUP BY tag.id ORDER BY count(post.id) DESC")
     List<Tag> getByQuery (@Param("query") String query);
 
