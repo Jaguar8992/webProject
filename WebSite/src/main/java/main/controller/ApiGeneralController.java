@@ -6,7 +6,11 @@ import main.api.request.MyProfileRequest;
 import main.api.response.*;
 import main.model.User;
 import main.model.repositories.UserRepository;
-import main.service.*;
+import main.service.general.*;
+import main.service.general.setting.PutSettingService;
+import main.service.general.setting.SettingService;
+import main.service.general.statistics.AllStatisticsService;
+import main.service.general.statistics.MyStatisticsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -52,7 +56,7 @@ public class ApiGeneralController {
 
     @GetMapping("/tag")
     @ResponseBody
-    private TagResponse tag(String query) {
+    private ResponseEntity tag(String query) {
         if (query == null) {
             query = "";
         }

@@ -1,11 +1,9 @@
-package main.service;
+package main.service.auth;
 
 import main.api.response.ResultResponse;
 import main.model.User;
 import main.model.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import javax.mail.*;
@@ -17,8 +15,8 @@ import java.util.UUID;
 @Service
 public class RestoreService{
 
-    private String username = "webproject8992@gmail.com";
-    private String password = "jaguar60893";
+    private final String username = "webproject8992@gmail.com";
+    private final String password = "jaguar8992";
     @Autowired
     private UserRepository repository;
 

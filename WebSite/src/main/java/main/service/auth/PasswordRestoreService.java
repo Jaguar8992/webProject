@@ -1,4 +1,4 @@
-package main.service;
+package main.service.auth;
 
 import main.api.response.PostMethodResponse;
 import main.model.CaptchaCode;

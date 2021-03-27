@@ -1,4 +1,4 @@
-package main.service;
+package main.service.post;
 
 import main.api.response.PostMethodResponse;
 import main.model.Post;

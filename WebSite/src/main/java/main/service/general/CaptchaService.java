@@ -1,4 +1,4 @@
-package main.service;
+package main.service.general;
 
 import com.github.cage.Cage;
 import com.github.cage.GCage;
@@ -16,7 +16,7 @@ import java.util.UUID;
 @Service
 public class CaptchaService {
 
-    private final String IMAGE_NAME = "data:image/png;base64,";
+    private final String imageName = "data:image/png;base64,";
     @Autowired
     private CaptchaRepository repository;
 
@@ -36,6 +36,6 @@ public class CaptchaService {
         List<CaptchaCode> staleCaptcha = repository.getStaleCaptcha();
         staleCaptcha.forEach((o) -> repository.delete(o));
 
-        return new CaptchaResponse(secret, IMAGE_NAME + encodingString);
+        return new CaptchaResponse(secret, imageName + encodingString);
     }
 }

@@ -1,4 +1,4 @@
-package main.service;
+package main.service.general.statistics;
 
 import main.api.response.StatisticsResponse;
 import main.model.Post;

@@ -1,11 +1,10 @@
-package main.service;
+package main.service.auth;
 
 import main.api.response.PostMethodResponse;
 import main.model.User;
 import main.model.repositories.CaptchaRepository;
 import main.model.repositories.GlobalSettingsRepository;
 import main.model.repositories.UserRepository;
-import org.aspectj.weaver.BoundedReferenceType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

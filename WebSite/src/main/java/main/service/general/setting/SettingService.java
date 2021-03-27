@@ -1,4 +1,4 @@
-package main.service;
+package main.service.general.setting;
 
 import main.api.response.SettingsResponse;
 import main.model.GlobalSetting;

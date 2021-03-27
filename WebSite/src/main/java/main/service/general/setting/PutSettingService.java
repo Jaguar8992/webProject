@@ -1,4 +1,4 @@
-package main.service;
+package main.service.general.setting;
 
 import main.model.GlobalSetting;
 import main.model.repositories.GlobalSettingsRepository;

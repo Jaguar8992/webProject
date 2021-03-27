@@ -1,11 +1,10 @@
-package main.service;
+package main.service.general;
 
 import main.api.response.PostMethodResponse;
 import main.model.User;
 import main.model.repositories.UserRepository;
 import org.imgscalr.Scalr;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -92,7 +91,7 @@ public class MyProfileService {
         String format = image.getOriginalFilename().substring(index + 1);
 
         String code = UUID.randomUUID().toString().replace("-", "");
-        String path = "upload" + code.substring(0, 2) + "/"
+        String path = "/upload/" + code.substring(0, 2) + "/"
                 + code.substring(3, 5) + "/" + code.substring(6, 8) + "/";
         String file = code.substring(9) + "." + format;
         String realPath = request.getServletContext().getRealPath(path);

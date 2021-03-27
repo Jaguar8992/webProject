@@ -1,4 +1,4 @@
-package main.service;
+package main.service.post;
 
 import main.api.response.PostsResponse;
 import main.model.Post;
@@ -9,7 +9,9 @@ import main.model.repositories.PostVoteRepository;
 import main.model.repositories.UserRepository;
 import main.service.dto.DTOPost;
 import main.service.dto.DTOUser;
+import org.jsoup.Jsoup;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -34,57 +36,45 @@ public class GetPostsService {
 
     public PostsResponse getPostsResponse(Pageable page, String mode) {
 
-        long count = repository.count();
-        List <Post> posts = getPostList(page, mode);
-
-        return createResponse(posts, count);
+        Page<Post> posts = getPostList(page, mode);
+        return createResponse(posts);
     }
 
     public PostsResponse getPostsResponseByQuery (Pageable page, String query) {
 
-        long count = repository.countByQuery(query);
-        List <Post> posts = repository.getByQuery(query, page);
-
-        return createResponse(posts, count);
+        Page<Post> posts = repository.getByQuery(query, page);
+        return createResponse(posts);
     }
 
     public PostsResponse getPostsResponseByDate (Pageable page, String date) throws ParseException {
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        long count = repository.countByDate(format.parse(date));
-        List <Post> posts = repository.getPostsByDate(format.parse(date), page);
-
-        return createResponse(posts, count);
+        Page<Post> posts = repository.getPostsByDate(format.parse(date), page);
+        return createResponse(posts);
     }
 
 
     public PostsResponse getPostsResponseByTag (Pageable page, String tag) {
 
-        long count = repository.countByTagName(tag);
-        List <Post> posts = repository.getPostsByTag(tag, page);
-
-        return createResponse(posts, count);
+        Page<Post> posts = repository.getPostsByTag(tag, page);
+        return createResponse(posts);
     }
 
     public PostsResponse getPostsResponseForUser (Pageable page, String email, String status) {
 
         User user = userRepository.findByEmail(email);
-        long count = countForUser(user, status);
-        List <Post> posts = getPostListForUser(page, user, status);
-
-        return createResponse(posts, count);
+        Page<Post> posts = getPostListForUser(page, user, status);
+        return createResponse(posts);
     }
 
     public PostsResponse getPostsResponseForModeration (Pageable page, String email, String status) {
 
         User user = userRepository.findByEmail(email);
-        long count = getCountForModeration(user.getId(), status);
-        List <Post> posts = getPostListForModeration(page, user.getId(), status);
-
-        return createResponse(posts, count);
+        Page<Post> posts = getPostListForModeration(page, user.getId(), status);
+        return createResponse(posts);
     }
 
-    private PostsResponse createResponse (List <Post> posts, long count){
+    private PostsResponse createResponse (Page<Post> posts){
 
         PostsResponse response = new PostsResponse();
         List <DTOPost> responsePosts = new ArrayList<>();
@@ -100,13 +90,13 @@ public class GetPostsService {
                     commentsRepository.getCountForPost(post),post.getViewCount());
             responsePosts.add(dtoPost);
         }
-        response.setCount(count);
+        response.setCount(posts.getTotalElements());
         response.setPosts(responsePosts);
         return response;
     }
 
-    private List<Post> getPostList (Pageable page, String mode){
-        List <Post> posts;
+    private Page<Post> getPostList (Pageable page, String mode){
+        Page<Post> posts;
         switch (mode) {
             case  ("recent"):
                 posts = repository.getRecent(page);
@@ -126,29 +116,8 @@ public class GetPostsService {
         return posts;
     }
 
-    private int countForUser (User user, String status){
-        int count;
-        switch (status) {
-            case  ("inactive"):
-                count = repository.countInactiveForUser(user);
-                break;
-            case  ("pending"):
-                count = repository.countNewForUser(user);
-                break;
-            case  ("declined"):
-                count = repository.countDeclinedForUser(user);
-                break;
-            case  ("published"):
-                count = repository.countAcceptedForUser(user);
-                break;
-            default:
-                throw new IllegalStateException("Unexpected value: " + status);
-        }
-        return count;
-    }
-
-    private List<Post> getPostListForUser (Pageable page, User user, String status){
-        List <Post> posts;
+    private Page<Post> getPostListForUser (Pageable page, User user, String status){
+        Page<Post> posts;
         switch (status) {
             case  ("inactive"):
                 posts = repository.findInactive(user, page);
@@ -168,27 +137,8 @@ public class GetPostsService {
         return posts;
     }
 
-    private int getCountForModeration (Integer id, String status){
-        int count;
-        switch (status) {
-            case  ("new"):
-                count = repository.countNewPostsForModeration();
-                break;
-            case  ("accepted"):
-                count = repository.countAcceptedPostsForModeration(id);
-                break;
-            case  ("declined"):
-                count = repository.countDeclinedPostsForModeration(id);
-                break;
-            default:
-                throw new IllegalStateException("Unexpected value: " + status);
-        }
-        return count;
-    }
-
-
-    private List<Post> getPostListForModeration (Pageable page, Integer id, String status){
-        List <Post> posts;
+    private Page<Post> getPostListForModeration (Pageable page, Integer id, String status){
+        Page<Post> posts;
         switch (status) {
             case  ("new"):
                 posts = repository.findNewPostsForModeration(page);
@@ -205,15 +155,12 @@ public class GetPostsService {
         return posts;
     }
 
-
     private String getAnnounce (String announce){
-        String result;
-        announce.replaceAll("\\<[^>]*>","");
-        if (announce.length() < 150){
-            result = announce;
+        String text = Jsoup.parse(announce).text();
+        if (text.length() < 150){
+            return text;
         } else {
-            result = announce.substring(0, 149)+ "...";
+            return text.substring(0, 149)+ "...";
         }
-            return result;
     }
 }

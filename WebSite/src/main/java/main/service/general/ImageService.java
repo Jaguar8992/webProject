@@ -1,4 +1,4 @@
-package main.service;
+package main.service.general;
 
 import main.api.response.PostMethodResponse;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +33,7 @@ public class ImageService {
         if (errors.size() == 0) {
 
             String code = UUID.randomUUID().toString().replace("-", "");
-            String path = "upload" + code.substring(0, 2) + "/"
+            String path = "/upload/" + code.substring(0, 2) + "/"
                     + code.substring(3, 5) + "/" + code.substring(6, 8) + "/";
             String file = code.substring(9) + "." + format;
             String realPath = request.getServletContext().getRealPath(path);

@@ -1,4 +1,4 @@
-package main.service;
+package main.service.general;
 
 import main.api.response.TagResponse;
 import main.model.Tag;
@@ -6,6 +6,7 @@ import main.model.repositories.PostRepository;
 import main.model.repositories.TagRepository;
 import main.service.dto.DTOTag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ public class TagsService {
     @Autowired
     private PostRepository postRepository;
 
-    public TagResponse getTagResponse(String query) {
+    public ResponseEntity getTagResponse(String query) {
         List <DTOTag> tagResponse = new ArrayList<>();
         List <Tag> tags = tagRepository.getByQuery(query);
 
@@ -38,8 +39,8 @@ public class TagsService {
                 DTOTag tagWeight = new DTOTag(tag.getName(), weight);
                 tagResponse.add(tagWeight);
             }
-        }
-        return new TagResponse(tagResponse);
+            return ResponseEntity.ok().body(new TagResponse(tagResponse));
+        } else return ResponseEntity.status(404).body(new TagResponse(tagResponse));
     }
 
 }

@@ -1,4 +1,4 @@
-package main.service;
+package main.service.general;
 
 import main.api.response.CommentResponse;
 import main.api.response.PostMethodResponse;
