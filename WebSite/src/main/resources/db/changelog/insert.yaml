@@ -18,7 +18,7 @@ databaseChangeLog:
                 value: "admin"
             - column:
                 name: password
-                value: "admin"
+                value: "$2y$12$2lmxjZ8WiCMUR20WRTrw1uwLTP7Pru7dDEYiJA0FmK2vtXJIoXFWe"
             - column:
                 name: email
                 value: "admin@server.com"
@@ -33,7 +33,7 @@ databaseChangeLog:
                 value: "guest"
             - column:
                 name: password
-                value: "guest"
+                value: "$2y$12$2lmxjZ8WiCMUR20WRTrw1uwLTP7Pru7dDEYiJA0FmK2vtXJIoXFWe"
             - column:
                 name: email
                 value: "guest@server.com"
@@ -79,30 +79,6 @@ databaseChangeLog:
             - column:
                 name: view_count
                 value: 2
-      - insert:
-          tableName: post_votes
-          columns:
-            - column:
-                name: user_id
-                value: 1
-            - column:
-                name: post_id
-                value: 1
-            - column:
-                name: value
-                value: 1
-      - insert:
-          tableName: post_votes
-          columns:
-            - column:
-                name: user_id
-                value: 2
-            - column:
-                name: post_id
-                value: 1
-            - column:
-                name: value
-                value: -1
       - insert:
           tableName: tags
           columns:
@@ -170,24 +146,6 @@ databaseChangeLog:
                 name: text
                 value: "its comment from admin"
       - insert:
-          tableName: captcha_codes
-          columns:
-            - column:
-                name: code
-                value: "itsCode"
-            - column:
-                name: secret_code
-                value: "secret code"
-      - insert:
-          tableName: captcha_codes
-          columns:
-            - column:
-                name: code
-                value: "itsCodeToo"
-            - column:
-                name: secret_code
-                value: "very secret code"
-      - insert:
           tableName: global_settings
           columns:
             - column:
@@ -223,28 +181,3 @@ databaseChangeLog:
             - column:
                 name: value
                 value: "NO"
-    rollback:
-      - delete:
-          tableName: users
-          where: name in ('admin', 'guest')
-      - delete:
-          tableName: posts
-          where: title in ('title', 'title')
-      - delete:
-          tableName: post_votes
-          where: user_id in (1, 2)
-      - delete:
-          tableName: tags
-          where: name in ('Java', 'Spring')
-      - delete:
-          tableName: tag2post
-          where: post_id in ('1', '2')
-      - delete:
-          tableName: post_comments
-          where: post_id in ('1', '2)
-      - delete:
-          tableName: captcha_codes
-          where: code in ('itsCode', 'itsCodeToo')
-      - delete:
-          tableName: global_settings
-          where: code in ('POST_PREMODERATION', 'MULTIUSER_MODE', 'STATISTICS_IS_PUBLIC')

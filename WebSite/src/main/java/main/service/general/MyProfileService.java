@@ -33,7 +33,7 @@ public class MyProfileService {
 
         PostMethodResponse response = new PostMethodResponse();
         TreeMap<String, String> errors = new TreeMap<>();
-        Pattern namePattern = Pattern.compile("^[а-яА-Я ]*$");
+        Pattern namePattern = Pattern.compile("^([а-яА-Я\\w])+([а-яА-Я\\s\\w]{2,})+$");
 
         if (email != null && !user.getEmail().equals(email)
                 && userRepository.findByEmail(email) != null) {

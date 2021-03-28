@@ -32,7 +32,7 @@ public class RegisterService {
         } else {
 
             TreeMap<String, String> errors = new TreeMap<>();
-            Pattern namePattern = Pattern.compile("^[а-яА-Я ]*$");
+            Pattern namePattern = Pattern.compile("^([а-яА-Я\\w])+([а-яА-Я\\s\\w]{2,})+$");
 
             if (userRepository.findByEmail(email) != null) {
                 errors.put("email", "Этот e-mail уже зарегистрирован");
