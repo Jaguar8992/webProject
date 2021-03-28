@@ -15,7 +15,7 @@ databaseChangeLog:
                 value: "user"
             - column:
                 name: password
-                value: "user"
+                value: "$2y$12$2lmxjZ8WiCMUR20WRTrw1uwLTP7Pru7dDEYiJA0FmK2vtXJIoXFWe"
             - column:
                 name: email
                 value: "user@server.com"
@@ -30,7 +30,7 @@ databaseChangeLog:
                 value: "ivan"
             - column:
                 name: password
-                value: "ivan"
+                value: "$2y$12$2lmxjZ8WiCMUR20WRTrw1uwLTP7Pru7dDEYiJA0FmK2vtXJIoXFWe"
             - column:
                 name: email
                 value: "ivan@server.com"
@@ -45,7 +45,7 @@ databaseChangeLog:
                 value: "petr"
             - column:
                 name: password
-                value: "petr"
+                value: "$2y$12$2lmxjZ8WiCMUR20WRTrw1uwLTP7Pru7dDEYiJA0FmK2vtXJIoXFWe"
             - column:
                 name: email
                 value: "petr@server.com"
@@ -60,7 +60,7 @@ databaseChangeLog:
                 value: "vova"
             - column:
                 name: password
-                value: "vova"
+                value: "$2y$12$2lmxjZ8WiCMUR20WRTrw1uwLTP7Pru7dDEYiJA0FmK2vtXJIoXFWe"
             - column:
                 name: email
                 value: "vova@server.com"
@@ -75,7 +75,7 @@ databaseChangeLog:
                 value: "vadik"
             - column:
                 name: password
-                value: "vadik"
+                value: "$2y$12$2lmxjZ8WiCMUR20WRTrw1uwLTP7Pru7dDEYiJA0FmK2vtXJIoXFWe"
             - column:
                 name: email
                 value: "vadik@server.com"
@@ -90,7 +90,7 @@ databaseChangeLog:
                 value: "fedya"
             - column:
                 name: password
-                value: "fedya"
+                value: "$2y$12$2lmxjZ8WiCMUR20WRTrw1uwLTP7Pru7dDEYiJA0FmK2vtXJIoXFWe"
             - column:
                 name: email
                 value: "fedya@server.com"
@@ -105,7 +105,7 @@ databaseChangeLog:
                 value: "oleg"
             - column:
                 name: password
-                value: "oleg"
+                value: "$2y$12$2lmxjZ8WiCMUR20WRTrw1uwLTP7Pru7dDEYiJA0FmK2vtXJIoXFWe"
             - column:
                 name: email
                 value: "oleg@server.com"
@@ -120,7 +120,7 @@ databaseChangeLog:
                 value: "vitya"
             - column:
                 name: password
-                value: "vitya"
+                value: "$2y$12$2lmxjZ8WiCMUR20WRTrw1uwLTP7Pru7dDEYiJA0FmK2vtXJIoXFWe"
             - column:
                 name: email
                 value: "vitya@server.com"
