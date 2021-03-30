@@ -39,8 +39,8 @@ public class TagsService {
                 DTOTag tagWeight = new DTOTag(tag.getName(), weight);
                 tagResponse.add(tagWeight);
             }
-            return ResponseEntity.ok().body(new TagResponse(tagResponse));
-        } else return ResponseEntity.status(404).body(new TagResponse(tagResponse));
+        }
+        return ResponseEntity.ok().body(new TagResponse(tagResponse));
     }
 
 }

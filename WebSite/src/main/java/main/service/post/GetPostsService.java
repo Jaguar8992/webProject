@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -42,14 +43,14 @@ public class GetPostsService {
 
     public PostsResponse getPostsResponseByQuery (Pageable page, String query) {
 
-        Page<Post> posts = repository.getByQuery(query, page);
+        Page<Post> posts = repository.getByQuery(query, page, new Date());
         return createResponse(posts);
     }
 
     public PostsResponse getPostsResponseByDate (Pageable page, String date) throws ParseException {
 
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        Page<Post> posts = repository.getPostsByDate(format.parse(date), page);
+        Page<Post> posts = repository.getPostsByDate(format.parse(date), page, new Date());
         return createResponse(posts);
     }
 
@@ -79,18 +80,22 @@ public class GetPostsService {
         PostsResponse response = new PostsResponse();
         List <DTOPost> responsePosts = new ArrayList<>();
 
-        for (Post post : posts){
-            User user = post.getUser();
-            DTOUser dtoUser = new DTOUser(user.getId(), user.getName());
-            DTOPost dtoPost = new DTOPost(post.getId(),
-                    post.getTime().getTime() / 1000, dtoUser,
-                    post.getTitle(), getAnnounce(post.getText()),
-                    voteRepository.getCountForPost(post, 1),
-                    voteRepository.getCountForPost(post, -1),
-                    commentsRepository.getCountForPost(post),post.getViewCount());
-            responsePosts.add(dtoPost);
+        if (posts != null) {
+            for (Post post : posts) {
+                User user = post.getUser();
+                DTOUser dtoUser = new DTOUser(user.getId(), user.getName());
+                DTOPost dtoPost = new DTOPost(post.getId(),
+                        post.getTime().getTime() / 1000, dtoUser,
+                        post.getTitle(), getAnnounce(post.getText()),
+                        voteRepository.getCountForPost(post, 1),
+                        voteRepository.getCountForPost(post, -1),
+                        commentsRepository.getCountForPost(post), post.getViewCount());
+                responsePosts.add(dtoPost);
+            }
+            response.setCount(posts.getTotalElements());
+        } else {
+            response.setCount(0);
         }
-        response.setCount(posts.getTotalElements());
         response.setPosts(responsePosts);
         return response;
     }
@@ -99,16 +104,16 @@ public class GetPostsService {
         Page<Post> posts;
         switch (mode) {
             case  ("recent"):
-                posts = repository.getRecent(page);
+                posts = repository.getRecent(page, new Date());
                 break;
             case  ("popular"):
-                posts = repository.getPopular(page);
+                posts = repository.getPopular(page, new Date());
                 break;
             case  ("best"):
-                posts = repository.getBest(page);
+                posts = repository.getBest(page, new Date());
                 break;
             case  ("early"):
-                posts = repository.getEarly(page);
+                posts = repository.getEarly(page, new Date());
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + mode);

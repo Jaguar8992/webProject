@@ -1,9 +1,12 @@
 package main.model;
 
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -26,6 +29,8 @@ public class Post {
     private Integer moderationId;
 
     @ManyToOne (cascade = CascadeType.ALL)
+    @JoinColumn(name="user_id", nullable=false)
+    @NotFound(action = NotFoundAction.IGNORE)
     private User user;
 
     @Column (nullable = false, columnDefinition = "timestamp default current_timestamp")
@@ -42,18 +47,21 @@ public class Post {
     private int viewCount;
 
     @OneToMany (cascade = CascadeType.ALL)
+    @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(
             name = "post_id",
             referencedColumnName = "id")
     private List <PostComment> postComments;
 
     @OneToMany (cascade = CascadeType.ALL)
+    @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(
             name = "post_id",
             referencedColumnName = "id")
     private List <PostVote> postVotes;
 
     @ManyToMany (cascade = CascadeType.ALL)
+    @NotFound(action = NotFoundAction.IGNORE)
     @JoinTable (name = "tag2post",
             joinColumns = {@JoinColumn (name = "post_id")},
             inverseJoinColumns = {@JoinColumn (name = "tag_id")})

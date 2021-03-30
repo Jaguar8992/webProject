@@ -1,6 +1,9 @@
 package main.model;
 
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
 import javax.persistence.*;
 import java.util.Date;
 
@@ -16,10 +19,12 @@ public class PostComment {
     private Integer parentId;
 
     @ManyToOne
+    @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name="post_id", nullable=false)
     private Post post;
 
     @ManyToOne
+    @NotFound(action = NotFoundAction.IGNORE)
     @JoinColumn(name="user_id", nullable=false)
     private User user;
 
