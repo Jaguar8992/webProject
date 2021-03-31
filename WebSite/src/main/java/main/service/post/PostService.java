@@ -29,6 +29,7 @@ public class PostService {
 
         PostMethodResponse response = new PostMethodResponse();
         TreeMap <String, String> errors = checkErrors(title, text);
+        boolean preModerationSetting = globalSettingsRepository.getPostPremoderationValue().equals("YES");
 
         Date now = new Date();
         Date time = new Date(timestamp * 1000);
@@ -46,6 +47,13 @@ public class PostService {
             post.setTitle(title);
             post.setTime(time);
             post.setTags(getTags(tags, post));
+
+            if (user.getIsModerator() == 0 || !preModerationSetting){
+                post.setModerationStatus("NEW");
+            } else {
+                post.setModerationStatus("ACCEPTED");
+                post.setIsActive(1);
+            }
 
             postRepository.save(post);
             response.setResult(true);
@@ -80,11 +88,13 @@ public class PostService {
             post.setText(text);
             post.setTags(getTags(tags, post));
 
-            if (user.getIsModerator() == 0 && !preModerationSetting){
+            if (user.getIsModerator() == 0 || !preModerationSetting){
                 post.setModerationStatus("NEW");
-            } else if (preModerationSetting){
+            } else {
                 post.setModerationStatus("ACCEPTED");
+                post.setIsActive(1);
             }
+
             postRepository.save(post);
             response.setResult(true);
 
