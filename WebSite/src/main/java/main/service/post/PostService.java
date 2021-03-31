@@ -48,11 +48,10 @@ public class PostService {
             post.setTime(time);
             post.setTags(getTags(tags, post));
 
-            if (user.getIsModerator() == 0 || !preModerationSetting){
+            if (user.getIsModerator() == 0 && preModerationSetting){
                 post.setModerationStatus("NEW");
             } else {
                 post.setModerationStatus("ACCEPTED");
-                post.setIsActive(1);
             }
 
             postRepository.save(post);
@@ -88,11 +87,10 @@ public class PostService {
             post.setText(text);
             post.setTags(getTags(tags, post));
 
-            if (user.getIsModerator() == 0 || !preModerationSetting){
+            if (user.getIsModerator() == 0 && preModerationSetting){
                 post.setModerationStatus("NEW");
-            } else {
+            } else if (active) {
                 post.setModerationStatus("ACCEPTED");
-                post.setIsActive(1);
             }
 
             postRepository.save(post);
