@@ -91,10 +91,38 @@ in your terminal type the command
 
 heroku login
 
-Now create deploy on heroky
+Now create deploy on heroku
 
 git remote add heroku https://git.heroku.com/your_app_name.git
 
 git push heroku
+
+Compressing objects: 100% (389/389), done.
+Writing objects: 100% (434/434), 45.59 MiB | 1.90 MiB/s, done.
+Total 434 (delta 40), reused 373 (delta 30), pack-reused 0
+remote: Compressing source files... done.
+remote: Building source:
+remote:
+remote: -----> Building on the Heroku-20 stack
+remote: -----> Using buildpack: heroku/java
+remote: -----> Java app detected
+remote: -----> Installing JDK 11... done
+remote: -----> Installing Maven 3.6.2... done
+remote: -----> Executing Maven
+remote:        $ mvn -DskipTests clean dependency:list install
+remote:        [INFO] Scanning for projects...
+
+....
+
+remote:        Done: 106.4M
+remote: -----> Launching...
+remote:        Released v30
+remote:        https://kolchanov-java-skillbox.herokuapp.com/ deployed to Heroku
+remote:
+remote: Verifying deploy... done.
+
+Now this application avialible on heroku URL
+
+
 
 
